@@ -14,7 +14,7 @@ void OpcodeManager::handler_placeholder(void)
 }
 
 void OpcodeManager::register_opcode_handler(unsigned char opcode,
-                                       OpcodeManager::op_handler_type handler)
+                                            OpcodeManager::op_handler_type handler)
 {
   handlers[opcode] = handler;
 }

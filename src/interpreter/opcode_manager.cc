@@ -2,6 +2,8 @@
 
 #include "interpreter/opcode_manager.hh"
 
+using namespace interpreter;
+
 OpcodeManager::OpcodeManager()
 {
   for (unsigned i = 0; i < MAX_OPCODE; ++i)

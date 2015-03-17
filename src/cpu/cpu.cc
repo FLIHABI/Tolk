@@ -20,5 +20,5 @@ inline unsigned char CPU::fetch_opcode()
 
 void CPU::run()
 {
-  //TODO: do something
+  while(op_manager_.handle(fetch_opcode()));
 }

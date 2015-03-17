@@ -16,6 +16,7 @@ namespace interpreter
       static bool handler_placeholder(void); //FIXME
       void register_opcode_handler(unsigned char opcode,
                                    op_handler_type handler);
+      bool handle(unsigned char opcode); //TODO: add cpu & env as param
 
     private:
       op_handler_type handlers_[MAX_OPCODE];

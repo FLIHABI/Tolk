@@ -21,3 +21,8 @@ void OpcodeManager::register_opcode_handler(unsigned char opcode,
 {
   handlers_[opcode] = handler;
 }
+
+bool OpcodeManager::handle(unsigned char opcode)
+{
+  return handlers_[opcode]();
+}

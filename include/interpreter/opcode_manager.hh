@@ -14,7 +14,8 @@ namespace interpreter
       typedef bool (*op_handler_type)(void); //FIXME
 
       static bool handler_placeholder(void); //FIXME
-      void register_opcode_handler(unsigned char opcode, op_handler_type handler);
+      void register_opcode_handler(unsigned char opcode,
+                                   op_handler_type handler);
 
     private:
       op_handler_type handlers_[MAX_OPCODE];

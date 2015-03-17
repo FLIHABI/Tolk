@@ -8,7 +8,7 @@ namespace cpu
   class Registers
   {
     public:
-      Registers(unsigned  gen_reg);
+      Registers(unsigned gen_reg);
       ~Registers();
 
       unsigned PC;

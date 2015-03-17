@@ -16,7 +16,6 @@ namespace cpu
           unsigned char* code,
           unsigned entry_point,
           interpreter::OpcodeManager op_manager);
-      ~CPU();
 
       void run();
       inline unsigned char fetch_opcode();

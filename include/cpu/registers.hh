@@ -9,7 +9,6 @@ namespace cpu
   {
     public:
       Registers(unsigned gen_reg);
-      ~Registers();
 
       unsigned PC;
       std::vector<long long> greg;

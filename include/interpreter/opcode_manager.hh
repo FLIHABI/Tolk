@@ -9,7 +9,6 @@ namespace interpreter
   {
     public:
       OpcodeManager();
-      ~OpcodeManager();
 
       typedef bool (*op_handler_type)(void); //FIXME
 

@@ -7,7 +7,7 @@ using namespace interpreter;
 OpcodeManager::OpcodeManager()
 {
   for (unsigned i = 0; i < MAX_OPCODE; ++i)
-    handlers[i] = handler_placeholder;
+    handlers_[i] = handler_placeholder;
 }
 
 void OpcodeManager::handler_placeholder(void)
@@ -18,5 +18,5 @@ void OpcodeManager::handler_placeholder(void)
 void OpcodeManager::register_opcode_handler(unsigned char opcode,
                                             OpcodeManager::op_handler_type handler)
 {
-  handlers[opcode] = handler;
+  handlers_[opcode] = handler;
 }

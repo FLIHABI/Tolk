@@ -13,12 +13,11 @@ namespace interpreter
 
       typedef void (*op_handler_type)(void); //FIXME
 
+      static void handler_placeholder(void); //FIXME
       void register_opcode_handler(unsigned char opcode, op_handler_type handler);
 
     private:
-      static void handler_placeholder(void); //FIXME
-
-      op_handler_type handlers[MAX_OPCODE];
+      op_handler_type handlers_[MAX_OPCODE];
   };
 }
 

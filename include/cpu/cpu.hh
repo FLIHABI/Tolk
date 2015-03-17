@@ -1,7 +1,6 @@
 #ifndef CPU_HH
 # define CPU_HH
 
-# include <vector>
 # include <stack>
 
 # include "cpu/registers.hh"

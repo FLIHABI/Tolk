@@ -11,9 +11,9 @@ namespace interpreter
       OpcodeManager();
       ~OpcodeManager();
 
-      typedef void (*op_handler_type)(void); //FIXME
+      typedef bool (*op_handler_type)(void); //FIXME
 
-      static void handler_placeholder(void); //FIXME
+      static bool handler_placeholder(void); //FIXME
       void register_opcode_handler(unsigned char opcode, op_handler_type handler);
 
     private:

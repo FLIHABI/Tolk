@@ -10,9 +10,10 @@ OpcodeManager::OpcodeManager()
     handlers_[i] = handler_placeholder;
 }
 
-void OpcodeManager::handler_placeholder(void)
+bool OpcodeManager::handler_placeholder(void)
 {
-  std::cerr << "Unknown opcode" << std::endl;
+  std::cerr << "Unknown opcode" << std::endl; //TODO: logging system
+  return false;
 }
 
 void OpcodeManager::register_opcode_handler(unsigned char opcode,

@@ -22,9 +22,9 @@ namespace cpu
 
       Registers regs;
       Flags flags;
+      std::stack<long long> stack;
 
     private:
-      std::stack<long long> stack_;
       unsigned char* bytecode_;
       interpreter::OpcodeManager op_manager_;
   };

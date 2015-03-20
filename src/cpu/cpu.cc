@@ -7,6 +7,7 @@ CPU::CPU(unsigned gen_reg,
          unsigned entry_point,
          interpreter::OpcodeManager op_manager)
   : regs(gen_reg)
+  , flags{}
   , bytecode_(code)
   , op_manager_(op_manager)
 {

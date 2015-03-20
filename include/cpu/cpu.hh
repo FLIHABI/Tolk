@@ -4,6 +4,7 @@
 # include <stack>
 
 # include "cpu/registers.hh"
+# include "cpu/flags.hh"
 # include "interpreter/opcode_manager.hh"
 
 namespace cpu
@@ -20,6 +21,7 @@ namespace cpu
       inline unsigned char fetch_opcode();
 
       Registers regs;
+      Flags flags;
 
     private:
       std::stack<long long> stack_;

@@ -16,8 +16,12 @@ namespace cpu
               unsigned entry_point);
       virtual ~BaseCPU();
 
-      inline unsigned char fetch();
       virtual void run() = 0;
+
+      inline unsigned char fetch()
+      {
+        return bytecode_[regs.PC++];
+      }
 
       Registers regs;
       Flags flags;

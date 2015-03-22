@@ -12,8 +12,3 @@ BaseCPU::BaseCPU(unsigned gen_reg, unsigned char* code, unsigned entry_point)
 
 BaseCPU::~BaseCPU()
 {}
-
-inline unsigned char BaseCPU::fetch()
-{
-  return bytecode_[regs.PC++];
-}

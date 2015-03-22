@@ -18,7 +18,7 @@ namespace cpu
           interpreter::OpcodeManager op_manager);
 
       void run();
-      inline unsigned char fetch_opcode();
+      inline unsigned char fetch();
 
       Registers regs;
       Flags flags;

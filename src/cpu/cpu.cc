@@ -14,12 +14,12 @@ CPU::CPU(unsigned gen_reg,
   regs.PC = entry_point;
 }
 
-inline unsigned char CPU::fetch_opcode()
+inline unsigned char CPU::fetch()
 {
   return bytecode_[regs.PC++];
 }
 
 void CPU::run()
 {
-  while(op_manager_.handle(fetch_opcode()));
+  while(op_manager_.handle(fetch()));
 }

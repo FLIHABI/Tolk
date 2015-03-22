@@ -4,7 +4,8 @@ CXXFLAGS=-Wall -Wextra -std=c++14 -I include
 OBJS=src/cpu/base_cpu.o\
      src/cpu/cpu.o\
      src/cpu/registers.o\
-     src/interpreter/opcode_manager.o
+     src/interpreter/opcode_manager.o\
+     src/main.o
 
 .PHONY: all clean
 

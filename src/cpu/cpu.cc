@@ -12,5 +12,5 @@ CPU::CPU(unsigned gen_reg,
 
 void CPU::run()
 {
-  while(op_manager_.handle(fetch()));
+  while(op_manager_.handle(fetch(), *this));
 }

@@ -10,7 +10,7 @@ OpcodeManager::OpcodeManager()
     handlers_[i] = handler_placeholder;
 }
 
-bool OpcodeManager::handler_placeholder(cpu::BaseCPU& cpu)
+bool OpcodeManager::handler_placeholder(__attribute__((unused)) cpu::BaseCPU& cpu)
 {
   std::cerr << "Unknown opcode" << std::endl; //TODO: logging system
   return false;

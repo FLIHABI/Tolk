@@ -6,18 +6,9 @@ CPU::CPU(unsigned gen_reg,
          unsigned char* code,
          unsigned entry_point,
          interpreter::OpcodeManager op_manager)
-  : regs(gen_reg)
-  , flags{}
-  , bytecode_(code)
+  : BaseCPU(gen_reg, code, entry_point)
   , op_manager_(op_manager)
-{
-  regs.PC = entry_point;
-}
-
-inline unsigned char CPU::fetch()
-{
-  return bytecode_[regs.PC++];
-}
+{}
 
 void CPU::run()
 {

@@ -7,7 +7,7 @@ VM management
 ------------------------------------------------
 */
 
-#define HALT 0x00
+#define OP_HALT 0x00
 
 /*
 ------------------------------------------------
@@ -15,10 +15,10 @@ Stack and register management
 ------------------------------------------------
 */
 
-#define POP 0x13
-#define PUSH 0x17
-#define PUSHR 0x18
-#define POPR 0x19
+#define OP_POP 0x13
+#define OP_PUSH 0x17
+#define OP_PUSHR 0x18
+#define OP_POPR 0x19
 
 /*
 ------------------------------------------------
@@ -26,11 +26,11 @@ Arithmetic
 ------------------------------------------------
 */
 
-#define ADD 0x20
-#define SUB 0x21
-#define MUL 0x22
-#define DIV 0x23
-#define MOD 0x24
+#define OP_ADD 0x20
+#define OP_SUB 0x21
+#define OP_MUL 0x22
+#define OP_DIV 0x23
+#define OP_MOD 0x24
 
 /*
 ------------------------------------------------
@@ -38,7 +38,7 @@ Tests
 ------------------------------------------------
 */
 
-#define CMP 0x30
+#define OP_CMP 0x30
 
 /*
 ------------------------------------------------
@@ -46,16 +46,16 @@ Branching
 ------------------------------------------------
 */
 
-#define CALL 0x40
-#define CALLR 0x49
-#define RET 0x41
-#define JMP 0x42
-#define JE 0x43
-#define JL 0x44
-#define JG 0x45
-#define JNE 0x46
-#define JLE 0x47
-#define JGE 0x48
+#define OP_CALL 0x40
+#define OP_CALLR 0x49
+#define OP_RET 0x41
+#define OP_JMP 0x42
+#define OP_JE 0x43
+#define OP_JL 0x44
+#define OP_JG 0x45
+#define OP_JNE 0x46
+#define OP_JLE 0x47
+#define OP_JGE 0x48
 
 /*
 ------------------------------------------------
@@ -63,7 +63,7 @@ Object management
 ------------------------------------------------
 */
 
-#define CREATE 0x50
-#define DELETE 0x51
+#define OP_CREATE 0x50
+#define OP_DELETE 0x51
 
 #endif /* end of include guard: BYTECODE_HH */

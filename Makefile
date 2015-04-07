@@ -1,10 +1,12 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -std=c++14 -I include
+CXXFLAGS=-Wall -Wextra -std=c++14 -I include -g
 OBJS=src/cpu/base_cpu.o\
      src/cpu/cpu.o\
      src/cpu/registers.o\
      src/interpreter/opcode_manager.o\
+     src/interpreter/handlers/halt.o\
+     src/loader.o\
      src/main.o
 
 .PHONY: all clean

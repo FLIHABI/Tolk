@@ -4,6 +4,9 @@
 
 using namespace interpreter::handlers;
 
+Loader::Loader()
+{}
+
 Loader& Loader::get_instance()
 {
   static Loader instance;

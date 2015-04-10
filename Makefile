@@ -1,6 +1,6 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -std=c++14 -I include -g -Idependencies/commons/include/
+CXXFLAGS=-Wall -Wextra -std=c++14 -g -I include -I dependencies/commons/include/
 OBJS=src/cpu/base_cpu.o\
      src/cpu/cpu.o\
      src/cpu/registers.o\

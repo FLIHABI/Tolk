@@ -23,6 +23,26 @@ namespace cpu
         return bytecode_[regs.PC++];
       }
 
+      inline short fetch_short_operand()
+      {
+        short value = 0;
+
+        for (int i = 0; i < 2; ++i)
+          value |= ((unsigned char)fetch() << (8 * i));
+
+        return value;
+      }
+
+      inline long long fetch_long_operand()
+      {
+        long long value = 0;
+
+        for (int i = 0; i < 8; ++i)
+          value |= ((unsigned char)fetch() << (8 * i));
+
+        return value;
+      }
+
       Registers regs;
       Flags flags;
       std::stack<long long> stack;

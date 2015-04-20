@@ -12,7 +12,7 @@ namespace cpu
   {
     public:
       BaseCPU(unsigned gen_reg,
-              unsigned char* code,
+              char* code,
               unsigned entry_point);
       virtual ~BaseCPU();
 
@@ -28,7 +28,7 @@ namespace cpu
         short value = 0;
 
         for (int i = 0; i < 2; ++i)
-          value |= ((unsigned char)fetch() << (8 * i));
+          value |= (fetch() << (8 * i));
 
         return value;
       }
@@ -38,7 +38,7 @@ namespace cpu
         long long value = 0;
 
         for (int i = 0; i < 8; ++i)
-          value |= ((unsigned char)fetch() << (8 * i));
+          value |= (fetch() << (8 * i));
 
         return value;
       }
@@ -48,7 +48,7 @@ namespace cpu
       std::stack<long long> stack;
 
     protected:
-      unsigned char* bytecode_;
+      char* bytecode_;
   };
 }
 

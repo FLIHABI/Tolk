@@ -1,6 +1,6 @@
 #include <commons/asm/bytecodes.hh>
 #include "loader.hh"
-#include "interpreter/handlers/halt.hh"
+#include "interpreter/handlers/handlers.hh"
 
 using namespace interpreter::handlers;
 

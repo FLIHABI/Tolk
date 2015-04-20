@@ -1,5 +1,5 @@
-#ifndef HALT_HH
-# define HALT_HH
+#ifndef HANDLERS_HH
+# define HANDLERS_HH
 
 # include "cpu/base_cpu.hh"
 
@@ -11,4 +11,4 @@ namespace interpreter
   }
 }
 
-#endif /* end of include guard: HALT_HH */
+#endif /* end of include guard: HANDLERS_HH */

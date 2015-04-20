@@ -3,7 +3,7 @@
 using namespace cpu;
 
 CPU::CPU(unsigned gen_reg,
-         unsigned char* code,
+         char* code,
          unsigned entry_point,
          interpreter::OpcodeManager op_manager)
   : BaseCPU(gen_reg, code, entry_point)

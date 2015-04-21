@@ -43,6 +43,19 @@ namespace cpu
         return value;
       }
 
+      inline long long stack_pop()
+      {
+        long long top = stack.top();
+        stack.pop();
+
+        return top;
+      }
+
+      inline void stack_push(long long value)
+      {
+        stack.push(value);
+      }
+
       Registers regs;
       Flags flags;
       std::stack<long long> stack;

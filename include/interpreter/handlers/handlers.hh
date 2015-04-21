@@ -8,6 +8,10 @@ namespace interpreter
   namespace handlers
   {
     bool halt_handler(cpu::BaseCPU& cpu);
+    bool push_handler(cpu::BaseCPU& cpu);
+    bool pushr_handler(cpu::BaseCPU& cpu);
+    bool pop_handler(cpu::BaseCPU& cpu);
+    bool popr_handler(cpu::BaseCPU& cpu);
     bool add_handler(cpu::BaseCPU& cpu);
     bool sub_handler(cpu::BaseCPU& cpu);
     bool mul_handler(cpu::BaseCPU& cpu);

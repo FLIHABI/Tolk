@@ -2,6 +2,7 @@
 # define BASE_CPU_HH
 
 # include <stack>
+# include <cstdint>
 
 # include "cpu/registers.hh"
 # include "cpu/flags.hh"
@@ -23,9 +24,9 @@ namespace cpu
         return bytecode_[regs.PC++];
       }
 
-      inline short fetch_short_operand()
+      inline int16_t fetch_16bits_operand()
       {
-        short value = 0;
+        int16_t value = 0;
 
         for (int i = 0; i < 2; ++i)
           value |= (fetch() << (8 * i));
@@ -33,9 +34,9 @@ namespace cpu
         return value;
       }
 
-      inline long long fetch_long_operand()
+      inline int64_t fetch_64bits_operand()
       {
-        long long value = 0;
+        int64_t value = 0;
 
         for (int i = 0; i < 8; ++i)
           value |= (fetch() << (8 * i));
@@ -43,22 +44,22 @@ namespace cpu
         return value;
       }
 
-      inline long long stack_pop()
+      inline int64_t stack_pop()
       {
-        long long top = stack.top();
+        int64_t top = stack.top();
         stack.pop();
 
         return top;
       }
 
-      inline void stack_push(long long value)
+      inline void stack_push(int64_t value)
       {
         stack.push(value);
       }
 
       Registers regs;
       Flags flags;
-      std::stack<long long> stack;
+      std::stack<int64_t> stack;
 
     protected:
       char* bytecode_;

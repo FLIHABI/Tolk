@@ -2,6 +2,7 @@
 # define REGISTERS_HH
 
 # include <vector>
+# include <cstdint>
 
 namespace cpu
 {
@@ -11,7 +12,7 @@ namespace cpu
       Registers(unsigned gen_reg);
 
       unsigned PC;
-      std::vector<long long> greg;
+      std::vector<int64_t> greg;
   };
 }
 

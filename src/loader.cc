@@ -17,5 +17,13 @@ Loader& Loader::get_instance()
 void Loader::init_handlers_manager(interpreter::OpcodeManager& opm)
 {
   opm.register_opcode_handler(OP_HALT, halt_handler);
-  //TODO: add other handlers
+  opm.register_opcode_handler(OP_PUSH, push_handler);
+  opm.register_opcode_handler(OP_PUSHR, pushr_handler);
+  opm.register_opcode_handler(OP_POP, pop_handler);
+  opm.register_opcode_handler(OP_POPR, popr_handler);
+  opm.register_opcode_handler(OP_ADD, add_handler);
+  opm.register_opcode_handler(OP_SUB, sub_handler);
+  opm.register_opcode_handler(OP_MUL, mul_handler);
+  opm.register_opcode_handler(OP_DIV, div_handler);
+  opm.register_opcode_handler(OP_MOD, mod_handler);
 }

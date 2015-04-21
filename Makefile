@@ -6,6 +6,8 @@ OBJS=src/cpu/base_cpu.o\
      src/cpu/registers.o\
      src/interpreter/opcode_manager.o\
      src/interpreter/handlers/halt.o\
+     src/interpreter/handlers/arithmetic.o\
+     src/interpreter/handlers/stack.o\
      src/loader.o\
      src/main.o
 

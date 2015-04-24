@@ -17,9 +17,7 @@ namespace cpu
               char* code,
               unsigned entry_point,
               interpreter::OpcodeManager op_manager);
-      virtual ~BaseCPU();
-
-      virtual void run() = 0;
+      ~BaseCPU();
 
       inline unsigned char fetch()
       {

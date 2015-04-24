@@ -8,6 +8,8 @@ class Environment
   public:
     Environment(cpu::BaseCPU& cpu);
 
+    void run();
+
     inline int64_t stack_pop()
     {
       int64_t top = stack.top();

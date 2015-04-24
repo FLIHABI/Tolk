@@ -47,7 +47,6 @@ int main(int argc, char* argv[])
   unsigned gen_reg = 1; //FIXME: read gen_reg from file
 
   cpu::BaseCPU cpu(gen_reg, bytecode, 0, opm);
-  cpu.run();
 
   delete[] bytecode;
 

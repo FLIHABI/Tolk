@@ -5,7 +5,7 @@ using namespace cpu;
 BaseCPU::BaseCPU( unsigned gen_reg,
                   char* code,
                   unsigned entry_point,
-                  interpreter::OpcodeManager op_manager)
+                  interpreter::OpcodeManager& op_manager)
   : regs(gen_reg)
   , flags()
   , op_manager(op_manager)

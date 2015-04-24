@@ -21,7 +21,7 @@ namespace cpu
       BaseCPU(unsigned gen_reg,
               char* code,
               unsigned entry_point,
-              interpreter::OpcodeManager op_manager);
+              interpreter::OpcodeManager& op_manager);
       ~BaseCPU();
 
       inline unsigned char fetch()
@@ -51,7 +51,7 @@ namespace cpu
 
       Registers regs;
       Flags flags;
-      interpreter::OpcodeManager op_manager;
+      interpreter::OpcodeManager& op_manager;
 
     protected:
       char* bytecode_;

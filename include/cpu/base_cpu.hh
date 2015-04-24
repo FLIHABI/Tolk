@@ -8,6 +8,11 @@
 # include "cpu/flags.hh"
 # include "interpreter/opcode_manager.hh"
 
+namespace interpreter
+{
+  class OpcodeManager;
+}
+
 namespace cpu
 {
   class BaseCPU

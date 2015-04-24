@@ -3,6 +3,11 @@
 
 # include "cpu/base_cpu.hh"
 
+namespace cpu
+{
+  class BaseCPU;
+}
+
 class Environment
 {
   public:

@@ -7,10 +7,5 @@ CPU::CPU(unsigned gen_reg,
          unsigned entry_point,
          interpreter::OpcodeManager op_manager)
   : BaseCPU(gen_reg, code, entry_point)
-  , op_manager_(op_manager)
+  , op_manager(op_manager)
 {}
-
-void CPU::run()
-{
-  while(op_manager_.handle(fetch(), *this));
-}

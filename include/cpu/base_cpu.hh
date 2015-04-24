@@ -6,6 +6,7 @@
 
 # include "cpu/registers.hh"
 # include "cpu/flags.hh"
+# include "interpreter/opcode_manager.hh"
 
 namespace cpu
 {
@@ -14,7 +15,8 @@ namespace cpu
     public:
       BaseCPU(unsigned gen_reg,
               char* code,
-              unsigned entry_point);
+              unsigned entry_point,
+              interpreter::OpcodeManager op_manager);
       virtual ~BaseCPU();
 
       virtual void run() = 0;
@@ -44,22 +46,9 @@ namespace cpu
         return value;
       }
 
-      inline int64_t stack_pop()
-      {
-        int64_t top = stack.top();
-        stack.pop();
-
-        return top;
-      }
-
-      inline void stack_push(int64_t value)
-      {
-        stack.push(value);
-      }
-
       Registers regs;
       Flags flags;
-      std::stack<int64_t> stack;
+      interpreter::OpcodeManager op_manager;
 
     protected:
       char* bytecode_;

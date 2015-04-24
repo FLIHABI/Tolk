@@ -14,10 +14,6 @@ namespace cpu
           unsigned entry_point,
           interpreter::OpcodeManager op_manager);
 
-      void run();
-
-    private:
-      interpreter::OpcodeManager op_manager_;
   };
 }
 

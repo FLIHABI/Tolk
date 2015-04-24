@@ -2,12 +2,12 @@
 
 #include "interpreter/handlers/handlers.hh"
 
-bool interpreter::handlers::halt_handler(cpu::BaseCPU& cpu)
+bool interpreter::handlers::halt_handler(Environment& env)
 {
   std::cout << "HALTED";
 
-  if (cpu.stack.size())
-     std::cout << " (return value: " << cpu.stack_pop() << ")";
+  if (env.stack.size())
+     std::cout << " (return value: " << env.stack_pop() << ")";
 
   std::cout << std::endl;
 

@@ -1,22 +1,22 @@
 #ifndef HANDLERS_HH
 # define HANDLERS_HH
 
-# include "cpu/base_cpu.hh"
+# include "environment.hh"
 
 namespace interpreter
 {
   namespace handlers
   {
-    bool halt_handler(cpu::BaseCPU& cpu);
-    bool push_handler(cpu::BaseCPU& cpu);
-    bool pushr_handler(cpu::BaseCPU& cpu);
-    bool pop_handler(cpu::BaseCPU& cpu);
-    bool popr_handler(cpu::BaseCPU& cpu);
-    bool add_handler(cpu::BaseCPU& cpu);
-    bool sub_handler(cpu::BaseCPU& cpu);
-    bool mul_handler(cpu::BaseCPU& cpu);
-    bool div_handler(cpu::BaseCPU& cpu);
-    bool mod_handler(cpu::BaseCPU& cpu);
+    bool halt_handler(Environment& env);
+    bool push_handler(Environment& env);
+    bool pushr_handler(Environment& env);
+    bool pop_handler(Environment& env);
+    bool popr_handler(Environment& env);
+    bool add_handler(Environment& env);
+    bool sub_handler(Environment& env);
+    bool mul_handler(Environment& env);
+    bool div_handler(Environment& env);
+    bool mod_handler(Environment& env);
   }
 }
 

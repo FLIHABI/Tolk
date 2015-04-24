@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "cpu/cpu.hh"
+#include "cpu/base_cpu.hh"
 #include "loader.hh"
 
 static char* read_input_file(char* filename)
@@ -44,8 +44,9 @@ int main(int argc, char* argv[])
   Loader::get_instance().init_handlers_manager(opm);
 
   char* bytecode = read_input_file(argv[1]);
+  unsigned gen_reg = 1; //FIXME: read gen_reg from file
 
-  cpu::CPU cpu(1, bytecode, 0, opm);
+  cpu::BaseCPU cpu(gen_reg, bytecode, 0, opm);
   cpu.run();
 
   delete[] bytecode;

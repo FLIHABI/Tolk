@@ -3,6 +3,7 @@
 
 #include "cpu/base_cpu.hh"
 #include "loader.hh"
+#include "environment.hh"
 
 static char* read_input_file(char* filename)
 {
@@ -47,6 +48,9 @@ int main(int argc, char* argv[])
   unsigned gen_reg = 1; //FIXME: read gen_reg from file
 
   cpu::BaseCPU cpu(gen_reg, bytecode, 0, opm);
+  Environment env(cpu);
+
+  env.run();
 
   delete[] bytecode;
 

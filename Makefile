@@ -18,5 +18,9 @@ all: tolk
 tolk: $(OBJS)
 	$(CXX) -o $(OUTBIN) $(OBJS)
 
+# static linked binary
+stolk: $(OBJS)
+	$(CXX) -o $(OUTBIN) -static $(OBJS)
+
 clean:
 	rm -rf $(OBJS) $(OUTBIN)

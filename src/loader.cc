@@ -3,6 +3,7 @@
 #include "interpreter/handlers/handlers.hh"
 
 using namespace interpreter::handlers;
+using namespace ressource;
 
 Loader::Loader()
 {}
@@ -26,4 +27,9 @@ void Loader::init_handlers_manager(interpreter::OpcodeManager& opm)
   opm.register_opcode_handler(OP_MUL, mul_handler);
   opm.register_opcode_handler(OP_DIV, div_handler);
   opm.register_opcode_handler(OP_MOD, mod_handler);
+}
+
+void Loader::load_ressources(RessourceManager& rm)
+{
+  //TODO: load ressources from file
 }

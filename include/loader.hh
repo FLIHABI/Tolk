@@ -9,6 +9,7 @@ class Loader
     static Loader& get_instance();
 
     void init_handlers_manager(interpreter::OpcodeManager& opm);
+    void load_ressources(ressource::RessourceManager& rm);
 
   private:
     Loader();

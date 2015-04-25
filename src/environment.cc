@@ -1,7 +1,8 @@
 #include "environment.hh"
 
-Environment::Environment(cpu::BaseCPU& cpu)
+Environment::Environment(cpu::BaseCPU& cpu, ressource::RessourceManager& rm)
   : cpu(cpu)
+  , res(rm)
 {}
 
 void Environment::run()

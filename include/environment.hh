@@ -2,6 +2,7 @@
 # define ENVIRONMENT_HH
 
 # include "cpu/base_cpu.hh"
+# include "ressource/ressource.hh"
 
 namespace cpu
 {
@@ -11,7 +12,7 @@ namespace cpu
 class Environment
 {
   public:
-    Environment(cpu::BaseCPU& cpu);
+    Environment(cpu::BaseCPU& cpu, ressource::RessourceManager& rm);
 
     void run();
 
@@ -30,6 +31,7 @@ class Environment
 
     cpu::BaseCPU& cpu;
     std::stack<int64_t> stack;
+    ressource::RessourceManager& res;
 };
 
 #endif /* end of include guard: ENVIRONMENT_HH */

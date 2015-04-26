@@ -30,6 +30,11 @@ namespace ressource
         objects_[id] = ptr;;
       }
 
+      inline void add_symbol(unsigned id, unsigned addr)
+      {
+        symbols_[id] = addr;
+      }
+
       inline char* get_object(unsigned id)
       {
         auto iter = objects_.find(id);
@@ -40,9 +45,20 @@ namespace ressource
         return iter->second;
       }
 
+      inline unsigned get_symbol(unsigned id)
+      {
+        auto iter = symbols_.find(id);
+
+        if (iter == symbols_.end())
+          throw std::invalid_argument("Unknown symbol id: " + std::to_string(id));
+
+        return iter->second;
+      }
+
     private:
       std::unordered_map<unsigned, std::string> strings_;
       std::unordered_map<unsigned, char*> objects_;
+      std::unordered_map<unsigned, unsigned> symbols_;
   };
 }
 

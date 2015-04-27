@@ -33,7 +33,7 @@ class Environment
 
     inline void stack_push(int64_t value)
     {
-      if (cpu.regs.SP == STACK_SIZE - 1)
+      if (cpu.regs.SP >= STACK_SIZE - 1)
         throw std::runtime_error("Stack overflow");
 
       stack[++cpu.regs.SP] = value;

@@ -12,6 +12,7 @@ namespace cpu
       Registers(unsigned gen_reg);
 
       unsigned PC;
+      unsigned SP;
       std::vector<int64_t> greg;
   };
 }

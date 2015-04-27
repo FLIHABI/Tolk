@@ -39,6 +39,26 @@ class Environment
       stack[++cpu.regs.SP] = value;
     }
 
+    inline void save_ctx()
+    {
+      if (cpu.regs.CP >= CTX_SIZE - 1)
+        throw std::runtime_error("Context overflow");
+
+      cpu.regs.CP++;
+      ctxs[cpu.regs.CP].IP = cpu.regs.PC;
+      ctxs[cpu.regs.CP].SP = cpu.regs.SP;
+    }
+
+    inline void restore_ctx()
+    {
+      if (cpu.regs.CP < 0)
+        throw std::runtime_error("Stack underflow");
+
+      cpu.regs.PC = ctxs[cpu.regs.CP].IP;
+      cpu.regs.SP = ctxs[cpu.regs.CP].SP;
+      cpu.regs.CP--;
+    }
+
     cpu::BaseCPU& cpu;
     std::vector<int64_t> stack;
     std::vector<cpu::Context> ctxs;

@@ -1,7 +1,6 @@
 #ifndef BASE_CPU_HH
 # define BASE_CPU_HH
 
-# include <stack>
 # include <cstdint>
 
 # include "cpu/registers.hh"

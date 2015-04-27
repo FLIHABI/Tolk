@@ -13,6 +13,7 @@ namespace cpu
 
       unsigned PC;
       unsigned SP;
+      unsigned CP;
       std::vector<int64_t> greg;
   };
 }

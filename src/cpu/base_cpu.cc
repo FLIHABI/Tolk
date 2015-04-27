@@ -12,8 +12,8 @@ BaseCPU::BaseCPU( unsigned gen_reg,
   , bytecode_(code)
 {
   regs.PC = entry_point;
-  regs.SP = 0;
-  regs.CP = 0;
+  regs.SP = -1;
+  regs.CP = -1;
 }
 
 BaseCPU::~BaseCPU()

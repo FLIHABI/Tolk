@@ -2,6 +2,7 @@
 # define LOADER_HH
 
 # include "interpreter/opcode_manager.hh"
+# include "ressource/ressource.hh"
 
 class Loader
 {

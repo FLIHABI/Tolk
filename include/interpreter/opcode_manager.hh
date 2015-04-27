@@ -1,8 +1,6 @@
 #ifndef OPCODE_MANAGER_HH
 # define OPCODE_MANAGER_HH
 
-# include "environment.hh"
-
 # define MAX_OPCODE 256
 
 class Environment;

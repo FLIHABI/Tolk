@@ -8,6 +8,9 @@
 # include "cpu/base_cpu.hh"
 # include "ressource/ressource.hh"
 
+# define STACK_SIZE 4096
+# define CTX_SIZE 4096
+
 namespace cpu
 {
   class BaseCPU;
@@ -22,17 +25,18 @@ class Environment
 
     inline int64_t stack_pop()
     {
-      if (cpu.regs.SP)
-        return stack[cpu.regs.SP--];
+      if (cpu.regs.SP < 0)
+        throw std::runtime_error("Stack underflow");
 
-      throw std::runtime_error("Poping an empty stack");
+      return stack[cpu.regs.SP--];
     }
 
     inline void stack_push(int64_t value)
     {
-      stack.push_back(value);
-      cpu.regs.SP++;
-      //FIXME: stack overflow ?
+      if (cpu.regs.SP == STACK_SIZE - 1)
+        throw std::runtime_error("Stack overflow");
+
+      stack[++cpu.regs.SP] = value;
     }
 
     cpu::BaseCPU& cpu;

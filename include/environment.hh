@@ -1,6 +1,10 @@
 #ifndef ENVIRONMENT_HH
 # define ENVIRONMENT_HH
 
+# include <vector>
+# include <stdexcept>
+
+# include "cpu/context.hh"
 # include "cpu/base_cpu.hh"
 # include "ressource/ressource.hh"
 
@@ -18,19 +22,22 @@ class Environment
 
     inline int64_t stack_pop()
     {
-      int64_t top = stack.top();
-      stack.pop();
+      if (cpu.regs.SP)
+        return stack[cpu.regs.SP--];
 
-      return top;
+      throw std::runtime_error("Poping an empty stack");
     }
 
     inline void stack_push(int64_t value)
     {
-      stack.push(value);
+      stack.push_back(value);
+      cpu.regs.SP++;
+      //FIXME: stack overflow ?
     }
 
     cpu::BaseCPU& cpu;
-    std::stack<int64_t> stack;
+    std::vector<int64_t> stack;
+    std::vector<cpu::Context> ctxs;
     ressource::RessourceManager& res;
 };
 

@@ -1,10 +1,13 @@
 #ifndef CONTEXT_HH
 # define CONTEXT_HH
 
-struct context
+namespace cpu
 {
-  unsigned SP;
-  unsigned IP;
-};
+  struct Context
+  {
+    unsigned SP;
+    unsigned IP;
+  };
+}
 
 #endif /* end of include guard: CONTEXT_HH */

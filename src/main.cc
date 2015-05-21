@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
   ressource::RessourceManager rm;
 
   Loader::get_instance().init_handlers_manager(opm);
-  Loader::get_instance().load_file(argv[1], rm);
+  rm.load_file(argv[1]);
 
   //TODO: read gen_reg from file
   cpu::BaseCPU cpu(4096, rm.get_bytecode(), rm.get_entry_point(), opm);

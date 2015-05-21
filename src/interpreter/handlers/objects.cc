@@ -18,8 +18,8 @@ bool interpreter::handlers::delete_handler(Environment& env)
 
 bool interpreter::handlers::read_handler(Environment& env)
 {
-  int64_t id = env.stack_pop();
   int64_t mem_id = env.stack_pop();
+  int64_t id = env.stack_pop();
 
   env.stack_push(env.res.get_object(id)->at(mem_id));
 
@@ -28,9 +28,9 @@ bool interpreter::handlers::read_handler(Environment& env)
 
 bool interpreter::handlers::write_handler(Environment& env)
 {
-  int64_t id = env.stack_pop();
-  int64_t mem_id = env.stack_pop();
   int64_t val = env.stack_pop();
+  int64_t mem_id = env.stack_pop();
+  int64_t id = env.stack_pop();
 
   env.res.get_object(id)->at(mem_id) = val;
 

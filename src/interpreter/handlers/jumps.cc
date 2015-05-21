@@ -2,14 +2,14 @@
 
 #include "interpreter/handlers/handlers.hh"
 
-bool jmp_handler(Environment& env)
+bool interpreter::handlers::jmp_handler(Environment& env)
 {
   env.cpu.regs.PC += env.cpu.fetch_16bits_operand();
 
   return true;
 }
 
-bool je_handler(Environment& env)
+bool interpreter::handlers::je_handler(Environment& env)
 {
   int16_t offset = env.cpu.fetch_16bits_operand();
   int64_t value2 = env.stack_pop();
@@ -21,7 +21,7 @@ bool je_handler(Environment& env)
   return true;
 }
 
-bool jl_handler(Environment& env)
+bool interpreter::handlers::jl_handler(Environment& env)
 {
   int16_t offset = env.cpu.fetch_16bits_operand();
 
@@ -34,7 +34,7 @@ bool jl_handler(Environment& env)
   return true;
 }
 
-bool jg_handler(Environment& env)
+bool interpreter::handlers::jg_handler(Environment& env)
 {
   int16_t offset = env.cpu.fetch_16bits_operand();
 
@@ -47,7 +47,7 @@ bool jg_handler(Environment& env)
   return true;
 }
 
-bool jne_handler(Environment& env)
+bool interpreter::handlers::jne_handler(Environment& env)
 {
   int16_t offset = env.cpu.fetch_16bits_operand();
 
@@ -60,7 +60,7 @@ bool jne_handler(Environment& env)
   return true;
 }
 
-bool jle_handler(Environment& env)
+bool interpreter::handlers::jle_handler(Environment& env)
 {
   int16_t offset = env.cpu.fetch_16bits_operand();
 
@@ -73,7 +73,7 @@ bool jle_handler(Environment& env)
   return true;
 }
 
-bool jge_handler(Environment& env)
+bool interpreter::handlers::jge_handler(Environment& env)
 {
   int16_t offset = env.cpu.fetch_16bits_operand();
 

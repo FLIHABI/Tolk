@@ -23,11 +23,11 @@ namespace interpreter
     bool save_handler(Environment& env);
     bool restore_handler(Environment& env);
     bool setr_handler(Environment& env);
-    //TODO:
     bool create_handler(Environment& env);
     bool delete_handler(Environment& env);
     bool read_handler(Environment& env);
     bool write_handler(Environment& env);
+    //TODO:
     bool jmp_handler(Environment& env);
     bool je_handler(Environment& env);
     bool jl_handler(Environment& env);

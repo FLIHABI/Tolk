@@ -25,30 +25,26 @@ namespace ressource
 
       inline std::string get_string(unsigned id)
       {
-        auto iter = strings_.find(id);
-
-        if (iter == strings_.end())
-          throw std::invalid_argument("Unknown string id: " + std::to_string(id));
-
-        return iter->second;
+        return tolk_file_->get_strtable().get(id);
       }
 
-      inline void add_string(unsigned id, std::string value)
+      inline tolk::Function get_function(unsigned id)
       {
-        strings_[id] = value;
+        return tolk_file_->get_functable().get(id);
       }
 
-      inline void add_object(unsigned id, char* ptr)
+      inline unsigned add_object(unsigned member_count)
       {
-        objects_[id] = ptr;;
+        objects_[object_id_counter_] = new std::vector<int64_t>(member_count);
+        return object_id_counter_++;
       }
 
-      inline void add_symbol(unsigned id, unsigned addr)
+      inline void delete_object(unsigned id)
       {
-        symbols_[id] = addr;
+        delete objects_[id];
       }
 
-      inline char* get_object(unsigned id)
+      inline std::vector<int64_t>* get_object(unsigned id)
       {
         auto iter = objects_.find(id);
 
@@ -58,21 +54,10 @@ namespace ressource
         return iter->second;
       }
 
-      inline unsigned get_symbol(unsigned id)
-      {
-        auto iter = symbols_.find(id);
-
-        if (iter == symbols_.end())
-          throw std::invalid_argument("Unknown symbol id: " + std::to_string(id));
-
-        return iter->second;
-      }
-
     private:
+      unsigned object_id_counter_;
       std::shared_ptr<tolk::TolkFile> tolk_file_;
-      std::unordered_map<unsigned, std::string> strings_;
-      std::unordered_map<unsigned, char*> objects_;
-      std::unordered_map<unsigned, unsigned> symbols_;
+      std::unordered_map<unsigned, std::vector<int64_t>*> objects_;
   };
 }
 

@@ -52,7 +52,7 @@ class Environment
     inline void restore_ctx()
     {
       if (cpu.regs.CP < 0)
-        throw std::runtime_error("Stack underflow");
+        throw std::runtime_error("Context underflow");
 
       cpu.regs.PC = ctxs[cpu.regs.CP].IP;
       cpu.regs.SP = ctxs[cpu.regs.CP].SP;

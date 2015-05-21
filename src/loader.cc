@@ -29,4 +29,21 @@ void Loader::init_handlers_manager(interpreter::OpcodeManager& opm)
   opm.register_opcode_handler(OP_MUL, mul_handler);
   opm.register_opcode_handler(OP_DIV, div_handler);
   opm.register_opcode_handler(OP_MOD, mod_handler);
+  opm.register_opcode_handler(OP_CALL, call_handler);
+  opm.register_opcode_handler(OP_CALLR, callr_handler);
+  opm.register_opcode_handler(OP_RET, ret_handler);
+  opm.register_opcode_handler(OP_SAVE, save_handler);
+  opm.register_opcode_handler(OP_RESTORE, restore_handler);
+  opm.register_opcode_handler(OP_SETR, setr_handler);
+  opm.register_opcode_handler(OP_CREATE, create_handler);
+  opm.register_opcode_handler(OP_DELETE, delete_handler);
+  opm.register_opcode_handler(OP_READ, read_handler);
+  opm.register_opcode_handler(OP_WRITE, write_handler);
+  opm.register_opcode_handler(OP_JMP, jmp_handler);
+  opm.register_opcode_handler(OP_JE, je_handler);
+  opm.register_opcode_handler(OP_JL, jl_handler);
+  opm.register_opcode_handler(OP_JG, jg_handler);
+  opm.register_opcode_handler(OP_JNE, jne_handler);
+  opm.register_opcode_handler(OP_JLE, jle_handler);
+  opm.register_opcode_handler(OP_JGE, jge_handler);
 }

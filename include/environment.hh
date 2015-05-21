@@ -25,6 +25,7 @@ class Environment
 
     inline int64_t stack_pop()
     {
+      std::cout << cpu.regs.SP << std::endl;
       if (cpu.regs.SP < 0)
         throw std::runtime_error("Stack underflow");
 
@@ -33,6 +34,7 @@ class Environment
 
     inline void stack_push(int64_t value)
     {
+      std::cout << cpu.regs.SP << std::endl;
       if (cpu.regs.SP >= STACK_SIZE - 1)
         throw std::runtime_error("Stack overflow");
 

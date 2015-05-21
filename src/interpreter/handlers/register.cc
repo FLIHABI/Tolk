@@ -10,7 +10,6 @@ bool interpreter::handlers::save_handler(Environment& env)
   for (unsigned i = 0; i < func.registers; ++i)
     env.stack_push(env.cpu.regs.greg[func.registers_offset + i]);
 
-  std::cout << "----" << std::endl;
   return true;
 }
 
@@ -22,7 +21,6 @@ bool interpreter::handlers::restore_handler(Environment& env)
   for (unsigned i = func.registers; i > 0; --i)
     env.cpu.regs.greg[func.registers_offset + i - 1] = env.stack_pop();
 
-  std::cout << "----" << std::endl;
   return true;
 }
 

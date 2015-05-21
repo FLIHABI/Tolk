@@ -20,9 +20,10 @@ namespace interpreter
     bool call_handler(Environment& env);
     bool callr_handler(Environment& env);
     bool ret_handler(Environment& env);
-    //TODO:
     bool save_handler(Environment& env);
     bool restore_handler(Environment& env);
+    bool setr_handler(Environment& env);
+    //TODO:
     bool create_handler(Environment& env);
     bool delete_handler(Environment& env);
     bool read_handler(Environment& env);

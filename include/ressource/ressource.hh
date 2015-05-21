@@ -18,9 +18,9 @@ namespace ressource
         return tolk_file_->get_entry_point();
       }
 
-      inline const char* get_bytecode()
+      inline char* get_bytecode()
       {
-        return tolk_file_->get_bytecode().data();
+        return const_cast<char*>(tolk_file_->get_bytecode().data());
       }
 
       inline std::string get_string(unsigned id)

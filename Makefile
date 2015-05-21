@@ -5,10 +5,15 @@ TOLKFILE=dependencies/commons/src/commons/tolkfile
 OBJS=src/cpu/base_cpu.o\
      src/cpu/registers.o\
      src/interpreter/opcode_manager.o\
+     src/ressource/ressource.o\
      src/environment.o\
      src/interpreter/handlers/halt.o\
      src/interpreter/handlers/arithmetic.o\
      src/interpreter/handlers/stack.o\
+     src/interpreter/handlers/calls.o\
+     src/interpreter/handlers/jumps.o\
+     src/interpreter/handlers/objects.o\
+     src/interpreter/handlers/register.o\
      src/loader.o\
      src/main.o\
      ${TOLKFILE}/functable.o\

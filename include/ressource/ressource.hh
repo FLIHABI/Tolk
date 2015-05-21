@@ -4,12 +4,25 @@
 # include <unordered_map>
 # include <stdexcept>
 # include <string>
+# include <commons/tolkfile/tolk-file.hh>
 
 namespace ressource
 {
   class RessourceManager
   {
     public:
+      void load_file(const std::string& filename);
+
+      inline unsigned get_entry_point()
+      {
+        return tolk_file_->get_entry_point();
+      }
+
+      inline const char* get_bytecode()
+      {
+        return tolk_file_->get_bytecode().data();
+      }
+
       inline std::string get_string(unsigned id)
       {
         auto iter = strings_.find(id);
@@ -56,6 +69,7 @@ namespace ressource
       }
 
     private:
+      std::shared_ptr<tolk::TolkFile> tolk_file_;
       std::unordered_map<unsigned, std::string> strings_;
       std::unordered_map<unsigned, char*> objects_;
       std::unordered_map<unsigned, unsigned> symbols_;

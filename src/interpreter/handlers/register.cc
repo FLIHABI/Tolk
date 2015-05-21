@@ -2,7 +2,7 @@
 
 #include "interpreter/handlers/handlers.hh"
 
-bool save_handler(Environment& env)
+bool interpreter::handlers::save_handler(Environment& env)
 {
   int16_t id = env.cpu.fetch_16bits_operand();
   tolk::Function func = env.res.get_function(id);
@@ -13,7 +13,7 @@ bool save_handler(Environment& env)
   return true;
 }
 
-bool restore_handler(Environment& env)
+bool interpreter::handlers::restore_handler(Environment& env)
 {
   int16_t id = env.cpu.fetch_16bits_operand();
   tolk::Function func = env.res.get_function(id);
@@ -24,7 +24,7 @@ bool restore_handler(Environment& env)
   return true;
 }
 
-bool setr_handler(Environment& env)
+bool interpreter::handlers::setr_handler(Environment& env)
 {
   int16_t reg = env.cpu.fetch_16bits_operand();
   int64_t val = env.cpu.fetch_64bits_operand();

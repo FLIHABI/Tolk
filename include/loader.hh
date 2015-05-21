@@ -10,8 +10,6 @@ class Loader
     static Loader& get_instance();
 
     void init_handlers_manager(interpreter::OpcodeManager& opm);
-    void load_file( const std::string& filename,
-                          ressource::RessourceManager& rm);
 
   private:
     Loader();

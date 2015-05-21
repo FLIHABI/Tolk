@@ -2,21 +2,21 @@
 
 #include "interpreter/handlers/handlers.hh"
 
-bool create_handler(Environment& env)
+bool interpreter::handlers::create_handler(Environment& env)
 {
   env.stack_push(env.res.add_object(env.stack_pop()));
 
   return true;
 }
 
-bool delete_handler(Environment& env)
+bool interpreter::handlers::delete_handler(Environment& env)
 {
   env.res.delete_object(env.stack_pop());
 
   return true;
 }
 
-bool read_handler(Environment& env)
+bool interpreter::handlers::read_handler(Environment& env)
 {
   int64_t id = env.stack_pop();
   int64_t mem_id = env.stack_pop();
@@ -26,7 +26,7 @@ bool read_handler(Environment& env)
   return true;
 }
 
-bool write_handler(Environment& env)
+bool interpreter::handlers::write_handler(Environment& env)
 {
   int64_t id = env.stack_pop();
   int64_t mem_id = env.stack_pop();

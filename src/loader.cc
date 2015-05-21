@@ -1,4 +1,6 @@
 #include <commons/asm/bytecodes.hh>
+#include <commons/tolkfile/tolk-file.hh>
+
 #include "loader.hh"
 #include "interpreter/handlers/handlers.hh"
 
@@ -29,7 +31,8 @@ void Loader::init_handlers_manager(interpreter::OpcodeManager& opm)
   opm.register_opcode_handler(OP_MOD, mod_handler);
 }
 
-void Loader::load_ressources(RessourceManager& rm)
+void Loader::load_file(const std::string& filename, RessourceManager& rm)
 {
+
   //TODO: load ressources from file
 }

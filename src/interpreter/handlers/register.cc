@@ -7,8 +7,9 @@ bool interpreter::handlers::save_handler(Environment& env)
   int16_t id = env.cpu.fetch_16bits_operand();
   tolk::Function func = env.res.get_function(id);
 
-  for (unsigned i = 0; i < func.registers; ++i)
+  for (unsigned i = 0; i < func.registers; ++i) {
     env.stack_push(env.cpu.regs.greg[func.registers_offset + i]);
+  }
 
   return true;
 }
@@ -18,8 +19,10 @@ bool interpreter::handlers::restore_handler(Environment& env)
   int16_t id = env.cpu.fetch_16bits_operand();
   tolk::Function func = env.res.get_function(id);
 
-  for (unsigned i = func.registers; i > 0; --i)
-    env.cpu.regs.greg[func.registers_offset + i - 1] = env.stack_pop();
+  for (unsigned i = func.registers; i > 0; --i) {
+    auto aux = env.stack_pop();
+    env.cpu.regs.greg[func.registers_offset + i - 1] = aux;
+  }
 
   return true;
 }

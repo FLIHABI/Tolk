@@ -46,7 +46,6 @@ class Environment
 
       cpu.regs.CP++;
       ctxs[cpu.regs.CP].IP = cpu.regs.PC;
-      //ctxs[cpu.regs.CP].SP = cpu.regs.SP;
     }
 
     inline void restore_ctx()
@@ -55,7 +54,6 @@ class Environment
         throw std::runtime_error("Context underflow");
 
       cpu.regs.PC = ctxs[cpu.regs.CP].IP;
-      //cpu.regs.SP = ctxs[cpu.regs.CP].SP;
       cpu.regs.CP--;
     }
 

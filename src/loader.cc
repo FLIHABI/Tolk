@@ -46,4 +46,5 @@ void Loader::init_handlers_manager(interpreter::OpcodeManager& opm)
   opm.register_opcode_handler(OP_JNE, jne_handler);
   opm.register_opcode_handler(OP_JLE, jle_handler);
   opm.register_opcode_handler(OP_JGE, jge_handler);
+  opm.register_opcode_handler(OP_JMPS, jmps_handler);
 }

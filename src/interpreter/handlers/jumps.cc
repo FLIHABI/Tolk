@@ -85,3 +85,10 @@ bool interpreter::handlers::jge_handler(Environment& env)
 
   return true;
 }
+
+bool interpreter::handlers::jmps_handler(Environment& env)
+{
+  env.cpu.regs.PC += env.stack_pop();
+
+  return true;
+}

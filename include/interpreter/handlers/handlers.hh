@@ -34,6 +34,7 @@ namespace interpreter
     bool jne_handler(Environment& env);
     bool jle_handler(Environment& env);
     bool jge_handler(Environment& env);
+    bool jmps_handler(Environment& env);
   }
 }
 

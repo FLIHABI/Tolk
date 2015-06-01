@@ -4,7 +4,7 @@
 
 bool interpreter::handlers::halt_handler(Environment& env)
 {
-  std::cout << "HALTED" << std::endl;
+  std::cout << "HALTED";
 
   if (env.stack.size())
      std::cout << " (return value: " << env.stack_pop() << ")";

@@ -13,7 +13,7 @@ namespace ressource
     public:
       ~RessourceManager();
 
-      void load_file(const std::string& filename);
+      bool load_file(const std::string& filename);
 
       inline unsigned get_entry_point()
       {

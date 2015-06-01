@@ -6,7 +6,7 @@ ressource::RessourceManager::~RessourceManager()
     delete entry.second;
 }
 
-void ressource::RessourceManager::load_file(const std::string& filename)
+bool ressource::RessourceManager::load_file(const std::string& filename)
 {
-  tolk_file_ = tolk::TolkFile::load(filename);
+  return ((tolk_file_ = tolk::TolkFile::load(filename)) != nullptr);
 }

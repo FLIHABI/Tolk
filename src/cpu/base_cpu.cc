@@ -13,6 +13,7 @@ BaseCPU::BaseCPU( unsigned gen_reg,
 {
   regs.PC = entry_point;
   regs.SP = -1;
+  regs.CSP = -1;
   regs.CP = -1;
 }
 

@@ -19,6 +19,7 @@ OBJS=src/cpu/base_cpu.o\
      ${TOLKFILE}/functable.o\
      ${TOLKFILE}/strtable.o\
      ${TOLKFILE}/symtable.o\
+     ${TOLKFILE}/structtable.o\
      ${TOLKFILE}/tolk-file.o
 
 .PHONY: all clean

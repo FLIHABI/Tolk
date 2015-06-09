@@ -8,7 +8,7 @@ bool interpreter::handlers::save_handler(Environment& env)
   tolk::Function func = env.res.get_function(id);
 
   for (unsigned i = 0; i < func.registers; ++i) {
-    env.stack_push(env.cpu.regs.greg[func.registers_offset + i]);
+    env.ctx_stack_push(env.cpu.regs.greg[func.registers_offset + i]);
   }
 
   return true;
@@ -20,7 +20,7 @@ bool interpreter::handlers::restore_handler(Environment& env)
   tolk::Function func = env.res.get_function(id);
 
   for (unsigned i = func.registers; i > 0; --i) {
-    auto aux = env.stack_pop();
+    auto aux = env.ctx_stack_pop();
     env.cpu.regs.greg[func.registers_offset + i - 1] = aux;
   }
 

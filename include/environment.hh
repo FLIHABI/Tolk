@@ -9,6 +9,7 @@
 # include "ressource/ressource.hh"
 
 # define STACK_SIZE 4096
+# define CTX_STACK_SIZE 4096
 # define CTX_SIZE 4096
 
 namespace cpu
@@ -39,6 +40,22 @@ class Environment
       stack[++cpu.regs.SP] = value;
     }
 
+    inline int64_t ctx_stack_pop()
+    {
+      if (cpu.regs.CSP < 0)
+        throw std::runtime_error("Context Stack underflow");
+
+      return ctx_stack[cpu.regs.CSP--];
+    }
+
+    inline void ctx_stack_push(int64_t value)
+    {
+      if (cpu.regs.CSP >= STACK_SIZE - 1)
+        throw std::runtime_error("Context Stack overflow");
+
+      ctx_stack[++cpu.regs.CSP] = value;
+    }
+
     inline void save_ctx()
     {
       if (cpu.regs.CP >= CTX_SIZE - 1)
@@ -59,6 +76,7 @@ class Environment
 
     cpu::BaseCPU& cpu;
     std::vector<int64_t> stack;
+    std::vector<int64_t> ctx_stack;
     std::vector<cpu::Context> ctxs;
     ressource::RessourceManager& res;
 };

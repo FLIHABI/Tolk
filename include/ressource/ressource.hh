@@ -5,13 +5,18 @@
 # include <list>
 # include <stdexcept>
 # include <string>
+# include <thread>
 # include <commons/tolkfile/tolk-file.hh>
+
+# include "task/task.hh"
 
 namespace ressource
 {
   class RessourceManager
   {
     public:
+      RessourceManager();
+
       bool load_file(const std::string& filename);
 
       std::vector<uint64_t> serialize_call(uint16_t function_id,
@@ -65,10 +70,32 @@ namespace ressource
         return iter->second;
       }
 
+      inline unsigned add_task(int16_t fun_id, std::vector<int64_t>& params)
+      {
+        tasks_[task_id_counter_] = task::Task(task_id_counter_, fun_id, params);
+        return task_id_counter_++;
+      }
+
+      inline task::Task get_task_result(unsigned id)
+      {
+        auto iter = tasks_.find(id);
+
+        if (iter == tasks_.end())
+          throw std::invalid_argument(
+              "Unknown task id: " + std::to_string(id));
+
+        while (!iter->second.is_complete)
+          std::this_thread::yield();
+
+        return iter->second;
+      }
+
     private:
       unsigned object_id_counter_;
+      unsigned task_id_counter_;
       std::shared_ptr<tolk::TolkFile> tolk_file_;
       std::unordered_map<unsigned, std::unique_ptr<std::vector<int64_t>>> objects_;
+      std::unordered_map<unsigned, task::Task> tasks_;
   };
 }
 

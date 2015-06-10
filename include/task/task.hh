@@ -8,7 +8,7 @@ namespace task
 {
   struct Task
   {
-    Task(unsigned task_id, int16_t fun_id, std::vector<int64_t>&& params);
+    Task(unsigned task_id, int16_t fun_id, std::vector<int64_t>& params);
 
     unsigned id;
     bool is_complete;

@@ -11,8 +11,6 @@ namespace ressource
   class RessourceManager
   {
     public:
-      ~RessourceManager();
-
       bool load_file(const std::string& filename);
 
       inline unsigned get_entry_point()
@@ -37,21 +35,27 @@ namespace ressource
 
       inline unsigned add_object(unsigned member_count)
       {
-        objects_[object_id_counter_] = new std::vector<int64_t>(member_count);
+        objects_[object_id_counter_] =
+          std::make_unique<std::vector<int64_t>>(member_count);
         return object_id_counter_++;
       }
 
       inline void delete_object(unsigned id)
       {
-        delete objects_[id];
+        objects_[id].reset();
       }
 
-      inline std::vector<int64_t>* get_object(unsigned id)
+      inline std::unique_ptr<std::vector<int64_t>>& get_object(unsigned id)
       {
         auto iter = objects_.find(id);
 
         if (iter == objects_.end())
-          throw std::invalid_argument("Unknown object id: " + std::to_string(id));
+          throw std::invalid_argument(
+              "Unknown object id: " + std::to_string(id));
+
+        if (!iter->second)
+          throw std::invalid_argument(
+              "Attempting to get a deleted object: " + std::to_string(id));
 
         return iter->second;
       }
@@ -59,7 +63,7 @@ namespace ressource
     private:
       unsigned object_id_counter_;
       std::shared_ptr<tolk::TolkFile> tolk_file_;
-      std::unordered_map<unsigned, std::vector<int64_t>*> objects_;
+      std::unordered_map<unsigned, std::unique_ptr<std::vector<int64_t>>> objects_;
   };
 }
 

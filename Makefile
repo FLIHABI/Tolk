@@ -11,6 +11,7 @@ OBJS=src/cpu/base_cpu.o\
      src/interpreter/handlers/arithmetic.o\
      src/interpreter/handlers/stack.o\
      src/interpreter/handlers/calls.o\
+     src/interpreter/handlers/parallel.o\
      src/interpreter/handlers/jumps.o\
      src/interpreter/handlers/objects.o\
      src/interpreter/handlers/register.o\

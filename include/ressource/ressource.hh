@@ -2,6 +2,7 @@
 # define RESSOURCE_HH
 
 # include <unordered_map>
+# include <list>
 # include <stdexcept>
 # include <string>
 # include <commons/tolkfile/tolk-file.hh>
@@ -12,6 +13,10 @@ namespace ressource
   {
     public:
       bool load_file(const std::string& filename);
+
+      std::vector<uint64_t> serialize_call(uint16_t function_id,
+                                           std::vector<uint64_t>& stack);
+      std::pair<uint16_t, std::vector<uint64_t>> deserialize_call(std::vector<uint64_t>&);
 
       inline unsigned get_entry_point()
       {

@@ -33,14 +33,10 @@ namespace ressource
         return tolk_file_->get_functable().get(id);
       }
 
-      inline tolk::Struct get_struct(unsigned id)
+      inline unsigned add_object(unsigned member_count)
       {
-        return tolk_file_->get_structtable().get(id);
-      }
-
-      inline unsigned add_object(unsigned struct_id)
-      {
-        objects_[object_id_counter_] = create_object(struct_id);
+        objects_[object_id_counter_] =
+          std::make_unique<std::vector<int64_t>>(member_count);
         return object_id_counter_++;
       }
 
@@ -65,12 +61,6 @@ namespace ressource
       }
 
     private:
-      inline std::unique_ptr<std::vector<int64_t>> create_object(unsigned sid)
-      {
-        tolk::Struct s = get_struct(sid);
-        return std::make_unique<std::vector<int64_t>>(s.component.size());
-      }
-
       unsigned object_id_counter_;
       std::shared_ptr<tolk::TolkFile> tolk_file_;
       std::unordered_map<unsigned, std::unique_ptr<std::vector<int64_t>>> objects_;

@@ -1,3 +1,6 @@
 [submodule "dependencies/commons"]
 	path = dependencies/commons
 	url = https://github.com/FLIHABI/Commons.git
+[submodule "dependencies/network"]
+	path = dependencies/network
+	url = https://github.com/FLIHABI/network

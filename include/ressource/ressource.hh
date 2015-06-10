@@ -73,7 +73,9 @@ namespace ressource
       inline unsigned add_task(int16_t fun_id, std::vector<int64_t>& params)
       {
         //TODO: notify network
-        tasks_[task_id_counter_] = task::Task(task_id_counter_, fun_id, params);
+        tasks_.insert(
+            std::make_pair( task_id_counter_,
+                            task::Task(task_id_counter_, fun_id, params)));
         return task_id_counter_++;
       }
 

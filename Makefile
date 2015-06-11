@@ -1,6 +1,6 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/ -I dependencies/network/src/
+CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
 TOLKFILE=dependencies/commons/src/commons/tolkfile
 NETWORK=dependencies/network/src/
 OBJS=src/cpu/base_cpu.o\

@@ -21,7 +21,12 @@ namespace ressource
 
       std::vector<uint64_t> serialize_call(uint16_t function_id,
                                            std::vector<uint64_t>& stack);
-      std::pair<uint16_t, std::vector<uint64_t>> deserialize_call(std::vector<uint64_t>&);
+      std::pair<unsigned, std::vector<uint64_t>> deserialize_call(std::vector<uint64_t>&);
+
+      std::vector<uint64_t> serialize_return(uint16_t function_id,
+                                             uint64_t return_value);
+
+      uint64_t deserialize_return(std::vector<uint64_t>&);
 
       inline unsigned get_entry_point()
       {

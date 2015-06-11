@@ -98,6 +98,8 @@ namespace ressource
         for (unsigned i = 0; i < s.component.size(); i++)
         {
           (*objects_[id])[i] = list.front();
+          if (object_id_counter_ <= id)
+              object_id_counter_ = id + 1;
           list.pop_front();
         }
       }

@@ -107,6 +107,19 @@ namespace ressource
         return iter->second;
       }
 
+      inline void set_server(std::shared_ptr<Server> s)
+      {
+          server_ = s;
+      }
+
+      inline std::shared_ptr<Server> get_server()
+      {
+          return server_;
+      }
+      inline std::shared_ptr<tolk::TolkFile> get_tolk_file()
+      {
+          return tolk_file_;
+      }
     private:
       unsigned object_id_counter_;
       unsigned task_id_counter_;

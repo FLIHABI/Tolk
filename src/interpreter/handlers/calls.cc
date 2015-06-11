@@ -25,7 +25,20 @@ bool interpreter::handlers::callr_handler(Environment& env)
 
 bool interpreter::handlers::ret_handler(Environment& env)
 {
-  env.restore_ctx();
+  //FIXME: do something clever
+  if (env.res.get_server())
+    env.restore_ctx();
+  else
+  {
+      try
+      {
+          env.restore_ctx();
+      }
+      catch (...)
+      {
+          return false;
+      }
+  }
 
   return true;
 }

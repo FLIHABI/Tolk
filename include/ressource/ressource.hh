@@ -20,7 +20,7 @@ namespace ressource
       bool load_file(const std::string& filename);
 
       std::vector<uint64_t> serialize_call(uint16_t function_id,
-                                           std::vector<uint64_t>& stack);
+                                           std::vector<int64_t>& stack);
       std::pair<unsigned, std::vector<uint64_t>> deserialize_call(std::vector<uint64_t>&);
 
       std::vector<uint64_t> serialize_return(uint16_t function_id,
@@ -82,6 +82,7 @@ namespace ressource
                             task::Task(task_id_counter_, fun_id, params)));
 
         task::Task& task = tasks_[task_id_counter_]; //TODO: network
+        auto network_datas = serialize_call(fun_id, params);
 
         return task_id_counter_++;
       }

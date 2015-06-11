@@ -18,7 +18,7 @@ namespace ressource
     return ((tolk_file_ = tolk::TolkFile::load(filename)) != nullptr);
   }
 
-  vector<uint64_t> RessourceManager::serialize_call(uint16_t function_id, vector<uint64_t>& stack)
+  vector<uint64_t> RessourceManager::serialize_call(uint16_t function_id, vector<int64_t>& stack)
   {
     const tolk::Function& f = tolk_file_->get_functable().get_table().at(function_id);
 

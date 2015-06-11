@@ -81,7 +81,7 @@ namespace ressource
             std::make_pair( task_id_counter_,
                             task::Task(task_id_counter_, fun_id, params)));
 
-        task::Task& task = tasks_[task_id_counter_]; //TODO: network
+        task::Task& task = tasks_.at(task_id_counter_); //TODO: network
         auto network_datas = serialize_call(fun_id, params);
 
         return task_id_counter_++;

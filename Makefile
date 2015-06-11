@@ -1,7 +1,8 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/
+CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/ -I dependencies/network/src/
 TOLKFILE=dependencies/commons/src/commons/tolkfile
+NETWORK=dependencies/network/src/
 OBJS=src/cpu/base_cpu.o\
      src/cpu/registers.o\
      src/interpreter/opcode_manager.o\
@@ -15,21 +16,27 @@ OBJS=src/cpu/base_cpu.o\
      src/interpreter/handlers/jumps.o\
      src/interpreter/handlers/objects.o\
      src/interpreter/handlers/register.o\
-     src/task/task.o\
      src/loader.o\
      src/main.o\
      ${TOLKFILE}/functable.o\
      ${TOLKFILE}/strtable.o\
      ${TOLKFILE}/symtable.o\
      ${TOLKFILE}/structtable.o\
-     ${TOLKFILE}/tolk-file.o
+     ${TOLKFILE}/tolk-file.o\
+     ${NETWORK}/broadcaster.o\
+     ${NETWORK}/listener.o\
+     ${NETWORK}/server.o\
+     ${NETWORK}/slave.o\
+     ${NETWORK}/task.o\
+     ${NETWORK}/utils.o
+
 
 .PHONY: all clean
 
 all: tolk
 
 tolk: $(OBJS)
-	$(CXX) -o $(OUTBIN) $(OBJS)
+	$(CXX) -o $(OUTBIN) $(OBJS) -pthread
 
 # static linked binary
 stolk: $(OBJS)

@@ -7,8 +7,9 @@
 # include <string>
 # include <thread>
 # include <commons/tolkfile/tolk-file.hh>
+# include <server.hh>
 
-# include "task/task.hh"
+# include "task.hh"
 
 namespace ressource
 {
@@ -81,13 +82,14 @@ namespace ressource
             std::make_pair( task_id_counter_,
                             task::Task(task_id_counter_, fun_id, params)));
 
-        task::Task& task = tasks_.at(task_id_counter_); //TODO: network
+        //task::Task& task = tasks_.at(task_id_counter_); //TODO: network
         auto network_datas = serialize_call(fun_id, params);
-
+        server_->execBytecode(std::string(network_datas.begin(),
+                                         network_datas.end()));
         return task_id_counter_++;
       }
 
-      inline task::Task get_task_result(unsigned id)
+      inline task::Task& get_task_result(unsigned id)
       {
         auto iter = tasks_.find(id);
 
@@ -98,6 +100,10 @@ namespace ressource
         while (!iter->second.is_complete)
           std::this_thread::yield();
 
+        std::vector<uint64_t> result;
+        std::string& res = server_->getResult(id)->value;
+        result.assign(&res[0], &res[0] + res.size() / 4);
+        iter->second.return_value = deserialize_return(result);
         return iter->second;
       }
 
@@ -105,6 +111,7 @@ namespace ressource
       unsigned object_id_counter_;
       unsigned task_id_counter_;
       std::shared_ptr<tolk::TolkFile> tolk_file_;
+      std::shared_ptr<Server> server_;
       std::unordered_map<unsigned, std::unique_ptr<std::vector<int64_t>>> objects_;
       std::unordered_map<unsigned, task::Task> tasks_;
   };

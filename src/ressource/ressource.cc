@@ -156,7 +156,7 @@ namespace ressource
       list.pop_front();
       int64_t kind = list.front();
       list.pop_front();
-      if (kind <= 2)
+      if (kind < 2)
           return value;
 
       map<unsigned, unsigned> equivalence;

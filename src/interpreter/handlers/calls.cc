@@ -36,6 +36,7 @@ bool interpreter::handlers::ret_handler(Environment& env)
       }
       catch (...)
       {
+          std::cout << "Finish" << std::endl;
           return false;
       }
   }

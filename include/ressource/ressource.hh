@@ -84,8 +84,10 @@ namespace ressource
 
         //task::Task& task = tasks_.at(task_id_counter_); //TODO: network
         auto network_datas = serialize_call(fun_id, params);
-        server_->execBytecode(std::string(network_datas.begin(),
-                                         network_datas.end()));
+        std::cout << "Vector has " << network_datas.size() << " elts" << std::endl;
+        std::string aux((char*)&network_datas[0], network_datas.size() * 8);
+        std::cout << "String has " << aux.size() << " elts" << std::endl;
+        server_->execBytecode(aux);
         return task_id_counter_++;
       }
 
@@ -93,16 +95,21 @@ namespace ressource
       {
         auto iter = tasks_.find(id);
 
+        std::cout << "Waiting" << std::endl;
         if (iter == tasks_.end())
           throw std::invalid_argument(
               "Unknown task id: " + std::to_string(id));
 
-        while (!iter->second.is_complete)
+        //FIXME while (!iter->second.is_complete)
+        Result* r;
+        while ((r = server_->getResult(id)) == nullptr)
           std::this_thread::yield();
 
-        std::vector<uint64_t> result;
-        std::string& res = server_->getResult(id)->value;
-        result.assign(&res[0], &res[0] + res.size() / 4);
+        std::string& res = r->value;
+        std::vector<uint64_t> result(res.size() / 8);
+        std::cout << "[]String has " << res.size() << " elts" << std::endl;
+        std::cout << "[]Vector has " << result.size() << " elts" << std::endl;
+        std::copy((uint64_t*)&res[0], ((uint64_t*)&res[0]) + res.size() / 8, &result[0]);
         iter->second.return_value = deserialize_return(result);
         return iter->second;
       }

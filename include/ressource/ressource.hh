@@ -19,15 +19,14 @@ namespace ressource
       RessourceManager();
 
       bool load_file(const std::string& filename);
-
-      std::vector<uint64_t> serialize_call(uint16_t function_id,
-                                           std::vector<int64_t>& stack);
-      std::pair<unsigned, std::vector<uint64_t>> deserialize_call(std::vector<uint64_t>&);
-
-      std::vector<uint64_t> serialize_return(uint16_t function_id,
-                                             uint64_t return_value);
-
+      std::vector<uint64_t>
+        serialize_call(uint16_t function_id, std::vector<int64_t>& stack);
+      std::pair<unsigned, std::vector<uint64_t>>
+        deserialize_call(std::vector<uint64_t>&);
+      std::vector<uint64_t>
+        serialize_return(uint16_t function_id, uint64_t return_value);
       uint64_t deserialize_return(std::vector<uint64_t>&);
+      std::vector<char> serialize_tolk_file();
 
       inline unsigned get_entry_point()
       {
@@ -83,11 +82,14 @@ namespace ressource
                             task::Task(task_id_counter_, fun_id, params)));
 
         //task::Task& task = tasks_.at(task_id_counter_); //TODO: network
-        auto network_datas = serialize_call(fun_id, params);
-        std::cout << "Vector has " << network_datas.size() << " elts" << std::endl;
-        std::string aux((char*)&network_datas[0], network_datas.size() * 8);
-        std::cout << "String has " << aux.size() << " elts" << std::endl;
-        server_->execBytecode(aux);
+        //
+        //TODO: move this code in the network lib
+        //TODO: pass these datas to the network thread
+        //auto network_datas = serialize_call(fun_id, params);
+        //std::cout << "Vector has " << network_datas.size() << " elts" << std::endl;
+        //std::string aux((char*)&network_datas[0], network_datas.size() * 8);
+        //std::cout << "String has " << aux.size() << " elts" << std::endl;
+        //server_->execBytecode(aux);
         return task_id_counter_++;
       }
 
@@ -95,23 +97,28 @@ namespace ressource
       {
         auto iter = tasks_.find(id);
 
-        std::cout << "Waiting" << std::endl;
         if (iter == tasks_.end())
           throw std::invalid_argument(
               "Unknown task id: " + std::to_string(id));
 
-        //FIXME while (!iter->second.is_complete)
-        Result* r;
-        while ((r = server_->getResult(id)) == nullptr)
+        while (!iter->second.is_complete)
           std::this_thread::yield();
 
-        std::string& res = r->value;
-        std::vector<uint64_t> result(res.size() / 8);
-        std::cout << "[]String has " << res.size() << " elts" << std::endl;
-        std::cout << "[]Vector has " << result.size() << " elts" << std::endl;
-        std::copy((uint64_t*)&res[0], ((uint64_t*)&res[0]) + res.size() / 8, &result[0]);
-        iter->second.return_value = deserialize_return(result);
         return iter->second;
+        //TODO: Move the code below
+
+        //FIXME while (!iter->second.is_complete)
+        //Result* r;
+        //while ((r = server_->getResult(id)) == nullptr)
+        //  std::this_thread::yield();
+
+        //std::string& res = r->value;
+        //std::vector<uint64_t> result(res.size() / 8);
+        //std::cout << "[]String has " << res.size() << " elts" << std::endl;
+        //std::cout << "[]Vector has " << result.size() << " elts" << std::endl;
+        //std::copy((uint64_t*)&res[0], ((uint64_t*)&res[0]) + res.size() / 8, &result[0]);
+        //iter->second.return_value = deserialize_return(result);
+        //return iter->second;
       }
 
       inline void set_server(std::shared_ptr<Server> s)
@@ -127,6 +134,7 @@ namespace ressource
       {
           return tolk_file_;
       }
+
     private:
       unsigned object_id_counter_;
       unsigned task_id_counter_;

@@ -1,5 +1,7 @@
 #include <iostream>
+#include <sstream>
 #include <set>
+#include <stdexcept>
 #include <utility>
 #include <list>
 
@@ -17,6 +19,17 @@ namespace ressource
   bool RessourceManager::load_file(const string& filename)
   {
     return ((tolk_file_ = tolk::TolkFile::load(filename)) != nullptr);
+  }
+
+  vector<char> RessourceManager::serialize_tolk_file()
+  {
+    ostringstream oss;
+
+    if (!tolk_file_->save(oss))
+      throw runtime_error("Cannot serialize tolk file");
+
+    string content = oss.str();
+    return vector<char>(content.begin(), content.end());
   }
 
   vector<uint64_t> RessourceManager::serialize_call(uint16_t function_id, vector<int64_t>& stack)

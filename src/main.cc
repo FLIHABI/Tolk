@@ -45,7 +45,8 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  rm.set_server(server);
+  //TODO: Move server to RM
+  //rm.set_server(server);
   //TODO: read gen_reg from file
 
   if (server)

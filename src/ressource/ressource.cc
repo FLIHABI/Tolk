@@ -13,7 +13,6 @@ namespace ressource
 {
   RessourceManager::RessourceManager()
     : object_id_counter_(0)
-      , task_id_counter_(0)
   {}
 
   bool RessourceManager::load_file(const string& filename)
@@ -209,6 +208,7 @@ namespace ressource
           else
               serialize_array_(elt, kind, result, queue);
       }
+
       return result;
   }
 
@@ -276,6 +276,7 @@ namespace ressource
                       (*objects_[id])[i] = equivalence[(*objects_[id])[i]];
           }
       }
+
       return value;
   }
 }

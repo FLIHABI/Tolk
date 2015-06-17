@@ -25,7 +25,8 @@ bool interpreter::handlers::callr_handler(Environment& env)
 
 bool interpreter::handlers::ret_handler(Environment& env)
 {
-  //FIXME: do something clever
+  //FIXME: Use the network service
+#if 0
   if (env.res.get_server())
     env.restore_ctx();
   else
@@ -40,6 +41,7 @@ bool interpreter::handlers::ret_handler(Environment& env)
           return false;
       }
   }
+#endif
 
   return true;
 }

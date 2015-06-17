@@ -10,14 +10,21 @@ bool interpreter::handlers::pcall_handler(Environment& env)
   for (unsigned index = params.size(); index--; )
     params[index] = env.stack_pop();
 
+  //TODO: Use the network service
+#if 0
   env.stack_push(env.res.add_task(fun_id, params));
+#endif
   return true;
 }
 
 bool interpreter::handlers::pwait_handler(Environment& env)
 {
   int64_t task_id = env.stack_pop();
+
+  //TODO: Use the network service
+#if 0
   env.stack_push(env.res.get_task_result(task_id).return_value);
+#endif
 
   return true;
 }

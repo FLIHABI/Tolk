@@ -31,6 +31,13 @@ namespace ressource
     string content = oss.str();
     return vector<char>(content.begin(), content.end());
   }
+
+  bool RessourceManager::is_struct_(unsigned kind)
+  {
+      return tolk_file_->get_structtable().get_table().find(kind)
+             == tolk_file_->get_structtable().get_table().end();
+  }
+
   void RessourceManager::serialize_struct_(unsigned elt,
                                            unsigned kind,
                                            vector<uint64_t>& result,
@@ -40,13 +47,31 @@ namespace ressource
       const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
       for (unsigned i = 0; i < s.component.size(); i++)
       {
-          std::cout << "Serializing " << (*ptr)[i] << std::endl;
           result.push_back((*ptr)[i]);
           //FIXME: Know where objects definition start
           if (s.component[i] >= 2)
               queue.emplace_back((*ptr)[i], s.component[i]);
       }
   }
+
+
+  void RessourceManager::serialize_array_(unsigned elt,
+                                          unsigned kind,
+                                          vector<uint64_t>& result,
+                                          list<std::pair<unsigned, unsigned>>& queue)
+  {
+      auto& ptr = get_object(elt);
+      const tolk::Symbol& s = tolk_file_->get_arraytable().get_table().at(kind);
+      result.push_back(ptr->size());
+      for (unsigned i = 0; i < ptr->size(); i++)
+      {
+          result.push_back((*ptr)[i]);
+          //FIXME: Know where objects definition start
+          if (s.offset >= 2)
+              queue.emplace_back((*ptr)[i], s.offset);
+      }
+  }
+
 
   vector<uint64_t> RessourceManager::serialize_call(uint16_t function_id, vector<int64_t>& stack)
   {
@@ -85,7 +110,10 @@ namespace ressource
       result.push_back(elt);
       result.push_back(kind);
 
-      serialize_struct_(elt, kind, result, queue);
+      if (is_struct_(kind))
+        serialize_struct_(elt, kind, result, queue);
+      else
+        serialize_array_(elt, kind, result, queue);
 
     }
     //TODO: serialize used register
@@ -104,7 +132,6 @@ namespace ressource
       const tolk::Function& f = tolk_file_->get_functable().get_table().at(function_id);
       for (unsigned i = 0; i < f.params.size(); i++)
       {
-        std::cout << "Poping for the stack" << list.front() << std::endl;
         stack.push_back(list.front());
         list.pop_front();
       }
@@ -116,12 +143,19 @@ namespace ressource
         unsigned kind = list.front();
         list.pop_front();
 
-        const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
-        objects_[id] = make_unique<vector<int64_t>>(s.component.size());
-
-        for (unsigned i = 0; i < s.component.size(); i++)
+        unsigned size = 0;
+        if (is_struct_(kind))
+            size = tolk_file_->get_structtable().get_table().at(kind).component.size();
+        else // We are on an array
         {
-          std::cout << "Deserializing " << list.front() << std::endl;
+            size = list.front();
+            list.pop_front();
+        }
+
+        objects_[id] = make_unique<vector<int64_t>>(size);
+
+        for (unsigned i = 0; i < size; i++)
+        {
           (*objects_[id])[i] = list.front();
           if (object_id_counter_ <= id)
               object_id_counter_ = id + 1;
@@ -163,6 +197,11 @@ namespace ressource
           result.push_back(kind);
 
           serialize_struct_(elt, kind, result, queue);
+
+          if (is_struct_(kind))
+              serialize_struct_(elt, kind, result, queue);
+          else
+              serialize_array_(elt, kind, result, queue);
       }
       return result;
   }
@@ -187,13 +226,21 @@ namespace ressource
           unsigned kind = list.front();
           list.pop_front();
 
-          const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
-          unsigned new_id = add_object(s.component.size());
+          unsigned size = 0;
+          if (is_struct_(kind))
+              size = tolk_file_->get_structtable().get_table().at(kind).component.size();
+          else // We are on an array
+          {
+              size = list.front();
+              list.pop_front();
+          }
+
+          unsigned new_id = add_object(size);
 
           new_objs.emplace_back(new_id, kind);
           equivalence[id] = new_id;
 
-          for (unsigned i = 0; i < s.component.size(); i++)
+          for (unsigned i = 0; i < size; i++)
           {
               (*objects_[new_id])[i] = list.front();
               list.pop_front();
@@ -206,11 +253,21 @@ namespace ressource
           unsigned kind = new_objs.front().second;
           new_objs.pop_front();
 
-          const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
-          for (unsigned i = 0; i < s.component.size(); i++)
+          if (is_struct_(kind))
           {
-              if (s.component[i] >= 2)
-              (*objects_[id])[i] = equivalence[(*objects_[id])[i]];
+              const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
+              for (unsigned i = 0; i < objects_[i]->size(); i++)
+              {
+                  if (s.component[i] >= 2)
+                      (*objects_[id])[i] = equivalence[(*objects_[id])[i]];
+              }
+          }
+          else //Array
+          {
+              unsigned is_obj = tolk_file_->get_arraytable().get_table().at(kind).offset;
+              if (is_obj >= 2)
+                  for (unsigned i = 0; i < objects_[i]->size(); i++)
+                      (*objects_[id])[i] = equivalence[(*objects_[id])[i]];
           }
       }
       return value;

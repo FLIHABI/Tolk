@@ -141,6 +141,13 @@ namespace ressource
                              std::vector<uint64_t>& result,
                              std::list<std::pair<unsigned, unsigned>>& queue);
 
+      void serialize_array_(unsigned elt,
+                            unsigned kind,
+                            std::vector<uint64_t>& result,
+                            std::list<std::pair<unsigned, unsigned>>& queue);
+
+      bool is_struct_(unsigned kind);
+
       unsigned object_id_counter_;
       unsigned task_id_counter_;
       std::shared_ptr<tolk::TolkFile> tolk_file_;

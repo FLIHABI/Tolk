@@ -31,6 +31,22 @@ namespace ressource
     string content = oss.str();
     return vector<char>(content.begin(), content.end());
   }
+  void RessourceManager::serialize_struct_(unsigned elt,
+                                           unsigned kind,
+                                           vector<uint64_t>& result,
+                                           list<std::pair<unsigned, unsigned>>& queue)
+  {
+      auto& ptr = get_object(elt);
+      const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
+      for (unsigned i = 0; i < s.component.size(); i++)
+      {
+          std::cout << "Serializing " << (*ptr)[i] << std::endl;
+          result.push_back((*ptr)[i]);
+          //FIXME: Know where objects definition start
+          if (s.component[i] >= 2)
+              queue.emplace_back((*ptr)[i], s.component[i]);
+      }
+  }
 
   vector<uint64_t> RessourceManager::serialize_call(uint16_t function_id, vector<int64_t>& stack)
   {
@@ -47,7 +63,7 @@ namespace ressource
     for (unsigned i = 0; i < stack.size(); i++)
     {
       result.push_back(stack[i]);
-      //FIXME: Know where objects definition start
+      //FIXME: Know where objects definition start, change magic number
       if (f.params[i] >= 2)
         queue.emplace_back(stack[i], f.params[i]);
     }
@@ -63,21 +79,14 @@ namespace ressource
       if (added.count(elt) > 0)
         continue;
 
-      const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
 
       added.insert(elt);
 
       result.push_back(elt);
       result.push_back(kind);
 
-      auto& ptr = get_object(elt);
-      for (unsigned i = 0; i < s.component.size(); i++)
-      {
-        result.push_back((*ptr)[i]);
-        //FIXME: Know where objects definition start
-        if (s.component[i] >= 2)
-          queue.emplace_back((*ptr)[i], s.component[i]);
-      }
+      serialize_struct_(elt, kind, result, queue);
+
     }
     //TODO: serialize used register
     return result;
@@ -95,6 +104,7 @@ namespace ressource
       const tolk::Function& f = tolk_file_->get_functable().get_table().at(function_id);
       for (unsigned i = 0; i < f.params.size(); i++)
       {
+        std::cout << "Poping for the stack" << list.front() << std::endl;
         stack.push_back(list.front());
         list.pop_front();
       }
@@ -111,6 +121,7 @@ namespace ressource
 
         for (unsigned i = 0; i < s.component.size(); i++)
         {
+          std::cout << "Deserializing " << list.front() << std::endl;
           (*objects_[id])[i] = list.front();
           if (object_id_counter_ <= id)
               object_id_counter_ = id + 1;
@@ -145,21 +156,13 @@ namespace ressource
           if (added.count(elt) > 0)
               continue;
 
-          const tolk::Struct& s = tolk_file_->get_structtable().get_table().at(kind);
 
           added.insert(elt);
 
           result.push_back(elt);
           result.push_back(kind);
 
-          auto& ptr = get_object(elt);
-          for (unsigned i = 0; i < s.component.size(); i++)
-          {
-              result.push_back((*ptr)[i]);
-              //FIXME: Know where objects definition start
-              if (s.component[i] >= 2)
-                  queue.emplace_back((*ptr)[i], s.component[i]);
-          }
+          serialize_struct_(elt, kind, result, queue);
       }
       return result;
   }

@@ -21,6 +21,12 @@ namespace ressource
     return ((tolk_file_ = tolk::TolkFile::load(filename)) != nullptr);
   }
 
+  bool RessourceManager::load_file(const std::vector<char>& datas)
+  {
+    istringstream iss(std::string(datas.data(), datas.size()));
+    return ((tolk_file_ = tolk::TolkFile::load(iss)) != nullptr);
+  }
+
   vector<char> RessourceManager::serialize_tolk_file()
   {
     ostringstream oss;

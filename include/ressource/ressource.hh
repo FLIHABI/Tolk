@@ -19,6 +19,7 @@ namespace ressource
       RessourceManager();
 
       bool load_file(const std::string& filename);
+      bool load_file(const std::vector<char>& datas);
       std::vector<uint64_t>
         serialize_call(uint16_t function_id, std::vector<int64_t>& stack);
       std::pair<unsigned, std::vector<uint64_t>>
@@ -79,7 +80,7 @@ namespace ressource
       {
         tasks_.insert(
             std::make_pair( task_id_counter_,
-                            task::Task(task_id_counter_, fun_id, params)));
+              task::Task(task_id_counter_, fun_id, params)));
 
         //task::Task& task = tasks_.at(task_id_counter_); //TODO: network
         //
@@ -123,28 +124,28 @@ namespace ressource
 
       inline void set_server(std::shared_ptr<Server> s)
       {
-          server_ = s;
+        server_ = s;
       }
 
       inline std::shared_ptr<Server> get_server()
       {
-          return server_;
+        return server_;
       }
       inline std::shared_ptr<tolk::TolkFile> get_tolk_file()
       {
-          return tolk_file_;
+        return tolk_file_;
       }
 
     private:
       void serialize_struct_(unsigned elt,
-                             unsigned kind,
-                             std::vector<uint64_t>& result,
-                             std::list<std::pair<unsigned, unsigned>>& queue);
+          unsigned kind,
+          std::vector<uint64_t>& result,
+          std::list<std::pair<unsigned, unsigned>>& queue);
 
       void serialize_array_(unsigned elt,
-                            unsigned kind,
-                            std::vector<uint64_t>& result,
-                            std::list<std::pair<unsigned, unsigned>>& queue);
+          unsigned kind,
+          std::vector<uint64_t>& result,
+          std::list<std::pair<unsigned, unsigned>>& queue);
 
       bool is_struct_(unsigned kind);
 

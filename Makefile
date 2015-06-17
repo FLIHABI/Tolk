@@ -17,6 +17,7 @@ OBJS=src/cpu/base_cpu.o\
      src/interpreter/handlers/objects.o\
      src/interpreter/handlers/register.o\
      src/loader.o\
+     src/args_parser.o\
      src/main.o\
      ${TOLKFILE}/functable.o\
      ${TOLKFILE}/strtable.o\

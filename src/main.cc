@@ -4,15 +4,31 @@
 #include "loader.hh"
 #include "environment.hh"
 #include "ressource/ressource.hh"
+#include "service.hh"
 #include "slave.hh"
+#include "args_parser.hh"
+
+void print_usage(char* bin_name)
+{
+  std::cerr << "Usage: " << bin_name << " <tolk file>"
+    << "[-s|--server] | [-c|--client]"
+    << std::endl;
+}
 
 int main(int argc, char* argv[])
 {
-  if (argc != 3)
+  args_datas args;
+
+  try
   {
-    std::cerr << "Usage: " << argv[0] << " <tolk file>"
-      << "[-s|--server] | [-c|--client]"
-      << std::endl;
+    args = parse_args(argc, argv);
+
+    if (args.mode == network::SERVER && args.filename.empty())
+      throw std::invalid_argument("Filename is required in server mode");
+  }
+  catch(std::exception& e)
+  {
+    print_usage(argv[0]);
     return 1;
   }
 
@@ -21,16 +37,13 @@ int main(int argc, char* argv[])
 
   Loader::get_instance().init_handlers_manager(opm);
 
+  //TODO: use mode
   std::shared_ptr<Server> server;
-  if (!rm.load_file(argv[1]))
+  if (!rm.load_file(args.filename))
   {
-    std::cerr << "Cannot open file '" << argv[1] << "'" << std::endl;
+    std::cerr << "Cannot open file '" << args.filename << "'" << std::endl;
     return 1;
   }
-
-  //FIXME, ulgy and unsafe
-  if (argv[2][1] == ('s') || argv[2][2] == ('s'))
-    server = std::make_shared<Server>();
 
   rm.set_server(server);
   //TODO: read gen_reg from file

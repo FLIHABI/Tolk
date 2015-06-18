@@ -29,6 +29,7 @@ OBJS=src/cpu/base_cpu.o\
      ${NETWORK}/server.o\
      ${NETWORK}/slave.o\
      ${NETWORK}/task.o\
+     ${NETWORK}/service.o\
      ${NETWORK}/utils.o
 
 

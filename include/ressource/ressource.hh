@@ -6,24 +6,25 @@
 # include <stdexcept>
 # include <string>
 # include <thread>
-# include <commons/tolkfile/tolk-file.hh>
-# include <server.hh>
+
+# include "commons/tolkfile/tolk-file.hh"
+# include "service.hh"
 
 namespace ressource
 {
   class RessourceManager
   {
     public:
-      RessourceManager();
+      using object_type = std::unique_ptr<std::vector<int64_t>>;
+
+      RessourceManager(network::Service& svc);
 
       bool load_file(const std::string& filename);
       bool load_file(const std::vector<char>& datas);
-      std::vector<uint64_t>
-        serialize_call(uint16_t function_id, std::vector<int64_t>& stack);
+      std::vector<uint64_t> serialize_call(uint16_t, std::vector<int64_t>&);
       std::pair<unsigned, std::vector<uint64_t>>
         deserialize_call(std::vector<uint64_t>&);
-      std::vector<uint64_t>
-        serialize_return(uint16_t function_id, uint64_t return_value);
+      std::vector<uint64_t> serialize_return(uint16_t, uint64_t);
       uint64_t deserialize_return(std::vector<uint64_t>&);
       std::vector<char> serialize_tolk_file();
 
@@ -59,7 +60,7 @@ namespace ressource
         objects_[id].reset();
       }
 
-      inline std::unique_ptr<std::vector<int64_t>>& get_object(unsigned id)
+      inline object_type& get_object(unsigned id)
       {
         auto iter = objects_.find(id);
 
@@ -79,6 +80,11 @@ namespace ressource
         return tolk_file_;
       }
 
+      inline network::Service& get_network_service()
+      {
+        return net_svc_;
+      }
+
     private:
       void serialize_struct_(unsigned elt,
           unsigned kind,
@@ -94,7 +100,8 @@ namespace ressource
 
       unsigned object_id_counter_;
       std::shared_ptr<tolk::TolkFile> tolk_file_;
-      std::unordered_map<unsigned, std::unique_ptr<std::vector<int64_t>>> objects_;
+      std::unordered_map<unsigned, object_type> objects_;
+      network::Service& net_svc_;
   };
 }
 

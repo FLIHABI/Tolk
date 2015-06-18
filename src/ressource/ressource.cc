@@ -11,8 +11,9 @@ using namespace std;
 
 namespace ressource
 {
-  RessourceManager::RessourceManager()
+  RessourceManager::RessourceManager(network::Service& svc)
     : object_id_counter_(0)
+    , net_svc_(svc)
   {}
 
   bool RessourceManager::load_file(const string& filename)

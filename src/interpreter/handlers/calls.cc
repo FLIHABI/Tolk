@@ -25,24 +25,20 @@ bool interpreter::handlers::callr_handler(Environment& env)
 
 bool interpreter::handlers::ret_handler(Environment& env)
 {
-  env.restore_ctx();
-  //FIXME: Use the network service
-#if 0
-  if (env.res.get_server())
-    env.restore_ctx();
-  else
+  switch (env.res.get_network_service().get_mode())
   {
-      try
-      {
-          env.restore_ctx();
-      }
-      catch (...)
-      {
-          std::cout << "Finish" << std::endl;
-          return false;
-      }
-  }
-#endif
+    case network::SERVER:
+      env.restore_ctx();
+      return true;
 
-  return true;
+    case network::CLIENT:
+      if (env.cpu.regs.CSP >= 0)
+      {
+        env.restore_ctx();
+        return true;
+      }
+
+    default:
+      return false;
+  }
 }

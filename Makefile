@@ -2,6 +2,7 @@ OUTBIN=tolk
 CXX=g++
 CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
 TOLKFILE=dependencies/commons/src/commons/tolkfile
+UTILS=dependencies/commons/src/commons/utils
 NETWORK=dependencies/network/src/
 OBJS=src/cpu/base_cpu.o\
      src/cpu/registers.o\
@@ -16,9 +17,10 @@ OBJS=src/cpu/base_cpu.o\
      src/interpreter/handlers/jumps.o\
      src/interpreter/handlers/objects.o\
      src/interpreter/handlers/register.o\
-     src/loader.o\
      src/args_parser.o\
+     src/loader.o\
      src/main.o\
+     ${UTILS}/md5.o\
      ${TOLKFILE}/functable.o\
      ${TOLKFILE}/strtable.o\
      ${TOLKFILE}/symtable.o\
@@ -38,7 +40,7 @@ OBJS=src/cpu/base_cpu.o\
 all: tolk
 
 tolk: $(OBJS)
-	$(CXX) -o $(OUTBIN) $(OBJS) -pthread
+	$(CXX) -o $(OUTBIN) $(OBJS) -pthread -lcrypto
 
 # static linked binary
 stolk: $(OBJS)

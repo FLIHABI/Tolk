@@ -11,7 +11,7 @@
 void print_usage(char* bin_name)
 {
   std::cerr << "Usage: " << bin_name << " <tolk file>"
-    << "[-s|--server] | [-c|--client]"
+    << " ([-s|--server] | [-c|--client])"
     << std::endl;
 }
 

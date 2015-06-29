@@ -20,7 +20,11 @@ bool interpreter::handlers::pwait_handler(Environment& env)
 {
   int64_t task_id = env.stack_pop();
 
-  //FIXME: slave returns string, deserialize is expecting vector ....
-  //env.stack_push(env.res.deserialize_return(env.res.get_network_service().get_task_result(task_id).call_recv));
+  std::string str_res = env.res.get_network_service().get_task_result(task_id);
+
+  const uint64_t* result = reinterpret_cast<const uint64_t*>(str_res.data());
+  std::vector<uint64_t> deserialize_data(result, result + (str_res.size() / 8));
+
+  env.stack_push(env.res.deserialize_return(deserialize_data));
   return true;
 }

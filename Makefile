@@ -3,7 +3,7 @@ CXX=g++
 CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
 TOLKFILE=dependencies/commons/src/commons/tolkfile
 UTILS=dependencies/commons/src/commons/utils
-NETWORK=dependencies/network/src/
+NETWORK=dependencies/network/src
 OBJS=src/cpu/base_cpu.o\
      src/cpu/registers.o\
      src/interpreter/opcode_manager.o\

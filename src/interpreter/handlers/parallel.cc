@@ -11,7 +11,8 @@ bool interpreter::handlers::pcall_handler(Environment& env)
     params[index] = env.stack_pop();
 
   auto serialize = env.res.serialize_call(fun_id, params);
-  env.stack_push(env.res.get_network_service().add_task(serialize));
+  std::string datas(reinterpret_cast<char*>(serialize.data()), serialize.size() * 8);
+  env.stack_push(env.res.get_network_service().add_task(datas));
   return true;
 }
 
@@ -19,6 +20,7 @@ bool interpreter::handlers::pwait_handler(Environment& env)
 {
   int64_t task_id = env.stack_pop();
 
-  env.stack_push(env.res.deserialize_return(env.res.get_network_service().get_task_result(task_id).call_recv));
+  //FIXME: slave returns string, deserialize is expecting vector ....
+  //env.stack_push(env.res.deserialize_return(env.res.get_network_service().get_task_result(task_id).call_recv));
   return true;
 }

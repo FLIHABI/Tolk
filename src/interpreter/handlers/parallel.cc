@@ -12,7 +12,7 @@ bool interpreter::handlers::pcall_handler(Environment& env)
 
   auto serialize = env.res.serialize_call(fun_id, params);
   std::string datas(reinterpret_cast<char*>(serialize.data()), serialize.size() * 8);
-  env.stack_push(env.res.get_network_service().add_task(datas));
+  env.stack_push(env.res.get_network_service().submit_task(datas));
   return true;
 }
 

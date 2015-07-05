@@ -20,3 +20,13 @@ extern "C" void print_newline(Environment& env)
 
     std::cout << std::endl;
 }
+
+extern "C" void print_string(Environment& env)
+{
+    uint64_t args = env.stack_pop();
+    uint64_t id = env.stack_pop();
+    for (uint64_t  i = 1; i < args; i++)
+        env.stack_pop();
+
+    std::cout << env.res.get_string(id);
+}

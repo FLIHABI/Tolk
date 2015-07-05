@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 
 #include "cpu/base_cpu.hh"
 #include "loader.hh"
@@ -10,54 +11,86 @@
 
 void print_usage(char* bin_name)
 {
-  std::cerr << "Usage: " << bin_name << " <tolk file>"
-    << " ([-s|--server] | [-c|--client])"
-    << std::endl;
+    std::cerr << "Usage: " << bin_name << " <tolk file>"
+        << " ([-s|--server] | [-c|--client])"
+        << std::endl;
 }
 
 int main(int argc, char* argv[])
 {
-  args_datas args;
+    args_datas args;
 
-  try
-  {
-    args = parse_args(argc, argv);
+    try
+    {
+        args = parse_args(argc, argv);
 
-    if (args.mode == network::SERVER && args.filename.empty())
-      throw std::invalid_argument("Filename is required in server mode");
-  }
-  catch(std::exception& e)
-  {
-    std::cerr << e.what() << std::endl;
-    print_usage(argv[0]);
-    return 1;
-  }
+        if (args.mode == network::SERVER && args.filename.empty())
+            throw std::invalid_argument("Filename is required in server mode");
+    }
+    catch(std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        print_usage(argv[0]);
+        return 1;
+    }
 
-  interpreter::OpcodeManager opm;
-  network::Service net_svc(args.mode);
-  ressource::RessourceManager rm(net_svc);
+    interpreter::OpcodeManager opm;
+    network::Service net_svc(args.mode);
+    ressource::RessourceManager rm(net_svc);
 
-  Loader::get_instance().init_handlers_manager(opm);
+    Loader::get_instance().init_handlers_manager(opm);
 
-  //TODO: read gen_reg from file
-  if (args.mode == network::SERVER)
-  {
     if (!rm.load_file(args.filename))
     {
-      std::cerr << "Cannot open file '" << args.filename << "'" << std::endl;
-      return 1;
+        std::cerr << "Cannot open file '" << args.filename << "'" << std::endl;
+        return 1;
     }
 
     net_svc.start();
+    //TODO: read gen_reg from file
+    if (args.mode == network::SERVER)
+    {
 
-    cpu::BaseCPU cpu(4096, rm.get_bytecode(), rm.get_entry_point(), opm);
-    Environment env(cpu, rm);
+        cpu::BaseCPU cpu(4096, rm.get_bytecode(), rm.get_entry_point(), opm);
+        Environment env(cpu, rm);
 
-    env.run();
-  }
-  //else
-  //{
-  //    //TODO clean ressource manager between each call
+        env.run();
+    }
+    else
+    {
+        while (1)
+        {
+            std::string bytecode = net_svc.get_task();
+            if (bytecode.size() == 0)
+            {
+                net_svc.stop();
+                return 0;
+            }
+            std::vector<uint64_t> result(bytecode.size() / 8);
+            std::copy((uint64_t*)&bytecode[0], ((uint64_t*)&bytecode[0]) + bytecode.size() / 8, &result[0]);
+            auto p = rm.deserialize_call(result);
+            cpu::BaseCPU cpu(4096,
+                    rm.get_bytecode(),
+                    rm.get_tolk_file()->get_functable().get(p.first).offset,
+                    opm);
+            Environment env(cpu, rm);
+            for (unsigned i = 0; i < p.second.size(); i++)
+            {
+                env.stack_push(p.second[i]);
+            }
+            env.run();
+            uint64_t ret = env.cpu.regs.greg[0];
+            result = rm.serialize_return(p.first, ret);
+            bytecode = std::string((char*)&result[0], result.size() * 8);
+            net_svc.submit_task_result(bytecode);
+        }
+    }
+  net_svc.stop();
+  return 0;
+}
+//else
+//{
+//    //TODO clean ressource manager between each call
 //    while (1)
 //    {
 //      Slave s;
@@ -86,7 +119,3 @@ int main(int argc, char* argv[])
 //      s.send_bytecode(b);
 //    }
 //  }
-
-
-  return 0;
-}

@@ -49,4 +49,5 @@ void Loader::init_handlers_manager(interpreter::OpcodeManager& opm)
   opm.register_opcode_handler(OP_JMPS, jmps_handler);
   opm.register_opcode_handler(OP_PCALL, pcall_handler);
   opm.register_opcode_handler(OP_PWAIT, pwait_handler);
+  opm.register_opcode_handler(OP_ASK, ask_handler);
 }

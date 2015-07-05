@@ -35,6 +35,7 @@ OBJS=src/cpu/base_cpu.o\
      ${NETWORK}/utils.o\
      ${DYNGOT}/dyngot.o
 
+LIBS=lib/print.so
 
 .PHONY: all clean
 
@@ -43,10 +44,14 @@ all: tolk
 tolk: $(OBJS)
 	$(CXX) -o $(OUTBIN) $(OBJS) -pthread -ldl
 
+libs: ${LIBS}
+
+%.so : %.cc
+	$(CXX) -shared -fpic -o $@ $^ ${CXXFLAGS}
 # static linked binary
 stolk: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
 stolk: $(OBJS)
 	$(CXX) -static -m32 -o $(OUTBIN) $(OBJS) -pthread -ldl -Wl,-u,pthread_create,-u,pthread_once,-u,pthread_mutex_lock,-u,pthread_mutex_unlock,-u,pthread_join,-u,pthread_equal,-u,pthread_detach,-u,pthread_cond_wait,-u,pthread_cond_signal,-u,pthread_cond_destroy,-u,pthread_cond_broadcast,-u,pthread_cancel
 
 clean:
-	rm -rf $(OBJS) $(OUTBIN)
+	rm -rf $(OBJS) $(OUTBIN) ${LIBS}

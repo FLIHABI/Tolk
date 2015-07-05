@@ -1,6 +1,6 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
+CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
 TOLKFILE=dependencies/commons/src/commons/tolkfile
 UTILS=dependencies/commons/src/commons/utils
 NETWORK=dependencies/network/src
@@ -42,6 +42,7 @@ tolk: $(OBJS)
 	$(CXX) -o $(OUTBIN) $(OBJS) -pthread
 
 # static linked binary
+stolk: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
 stolk: $(OBJS)
 	$(CXX) -static -m32 -o $(OUTBIN) $(OBJS) -pthread
 

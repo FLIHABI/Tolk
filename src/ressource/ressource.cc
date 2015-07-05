@@ -41,7 +41,7 @@ namespace ressource
   bool RessourceManager::is_struct_(unsigned kind)
   {
       return tolk_file_->get_structtable().get_table().find(kind)
-             == tolk_file_->get_structtable().get_table().end();
+             != tolk_file_->get_structtable().get_table().end();
   }
 
   void RessourceManager::serialize_struct_(unsigned elt,

@@ -38,6 +38,8 @@ int main(int argc, char* argv[])
     interpreter::OpcodeManager opm;
     network::Service net_svc(args.mode);
     ressource::RessourceManager rm(net_svc);
+    for (auto& lib : args.libs)
+        rm.dyngot_get().add_library(lib.c_str());
 
     Loader::get_instance().init_handlers_manager(opm);
 

@@ -7,7 +7,8 @@ args_datas parse_args(int argc, char* argv[])
   args_datas datas
   {
     .mode = network::SERVER,
-    .filename = ""
+    .filename = "",
+    .libs = std::vector<std::string>()
   };
   bool mode = false;
   bool filename = false;
@@ -39,10 +40,12 @@ args_datas parse_args(int argc, char* argv[])
     else
     {
       if (filename)
-        throw std::invalid_argument("Duplicate filename");
-
-      datas.filename = argv[i];
-      filename = true;
+          datas.libs.emplace_back(argv[i]);
+      else
+      {
+          datas.filename = argv[i];
+          filename = true;
+      }
     }
   }
 

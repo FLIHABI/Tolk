@@ -8,6 +8,7 @@
 #include "service.hh"
 #include "slave.hh"
 #include "args_parser.hh"
+#include "timer.hh"
 
 void print_usage(char* bin_name)
 {
@@ -54,7 +55,12 @@ int main(int argc, char* argv[])
         cpu::BaseCPU cpu(4096, rm.get_bytecode(), rm.get_entry_point(), opm);
         Environment env(cpu, rm);
 
-        env.run();
+        double s = 0;
+        {
+            scoped_timer timer(s);
+            env.run();
+        }
+        std::cout << "Execution time: " << s << " (seconds)" << std::endl;
     }
     else
     {
@@ -78,44 +84,18 @@ int main(int argc, char* argv[])
             {
                 env.stack_push(p.second[i]);
             }
-            env.run();
+            double s = 0;
+            {
+                scoped_timer timer(s);
+                env.run();
+            }
+            std::cout << "Execution time: " << s << " (seconds)" << std::endl;
             uint64_t ret = env.cpu.regs.greg[0];
             result = rm.serialize_return(p.first, ret);
             bytecode = std::string((char*)&result[0], result.size() * 8);
             net_svc.submit_task_result(bytecode);
         }
     }
-  net_svc.stop();
-  return 0;
+    net_svc.stop();
+    return 0;
 }
-//else
-//{
-//    //TODO clean ressource manager between each call
-//    while (1)
-//    {
-//      Slave s;
-//      std::string b = s.getBytecode();
-//      std::cout << "Receive: " << b.size() << std::endl;
-//      std::vector<uint64_t> result(b.size() / 8);
-//      std::copy((uint64_t*)&b[0], ((uint64_t*)&b[0]) + b.size() / 8, &result[0]);
-//      std::cout << "Receive " << result.size() << std::endl;
-//      std::cout << "Vector has " << result[1] << " elts" << std::endl;
-//      auto p = rm.deserialize_call(result);
-//      //TODO call env
-//      cpu::BaseCPU cpu(4096,
-//          rm.get_bytecode(),
-//          rm.get_tolk_file()->get_functable().get(p.first).offset,
-//          opm);
-//      Environment env(cpu, rm);
-//      for (unsigned i = 0; i < p.second.size(); i++)
-//      {
-//        env.stack_push(p.second[i]);
-//      }
-//      env.run();
-//      uint64_t ret = env.cpu.regs.greg[0];
-//      result = rm.serialize_return(p.first, ret);
-//      b = std::string((char*)&result[0], result.size() * 8);
-//      std::cout << "Answering" << std::endl;
-//      s.send_bytecode(b);
-//    }
-//  }

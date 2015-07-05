@@ -1,6 +1,6 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
+CXXFLAGS=-Wall -Wextra -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
 TOLKFILE=dependencies/commons/src/commons/tolkfile
 UTILS=dependencies/commons/src/commons/utils
 NETWORK=dependencies/network/src
@@ -44,7 +44,7 @@ tolk: $(OBJS)
 
 # static linked binary
 stolk: $(OBJS)
-	$(CXX) -o $(OUTBIN) -static $(OBJS)
+	$(CXX) -m32 -o $(OUTBIN) $(OBJS) -pthread -lcrypto
 
 clean:
 	rm -rf $(OBJS) $(OUTBIN)

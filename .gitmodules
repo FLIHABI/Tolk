@@ -4,3 +4,6 @@
 [submodule "dependencies/network"]
 	path = dependencies/network
 	url = https://github.com/FLIHABI/network
+[submodule "dependencies/DynGOT"]
+	path = dependencies/DynGOT
+	url = https://github.com/Neodyblue/DynGOT

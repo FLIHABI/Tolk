@@ -18,6 +18,7 @@ namespace interpreter
     bool div_handler(Environment& env);
     bool mod_handler(Environment& env);
     bool call_handler(Environment& env);
+    bool ask_handler(Environment& env);
     bool callr_handler(Environment& env);
     bool ret_handler(Environment& env);
     bool save_handler(Environment& env);

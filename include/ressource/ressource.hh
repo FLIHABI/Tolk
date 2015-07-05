@@ -8,6 +8,7 @@
 # include <thread>
 
 # include "commons/tolkfile/tolk-file.hh"
+# include "dyngot.hh"
 # include "service.hh"
 
 namespace ressource
@@ -85,6 +86,10 @@ namespace ressource
         return net_svc_;
       }
 
+      inline DynGot& dyngot_get()
+      {
+          return dyngot_;
+      }
     private:
       void serialize_struct_(unsigned elt,
           unsigned kind,
@@ -102,6 +107,7 @@ namespace ressource
       std::shared_ptr<tolk::TolkFile> tolk_file_;
       std::unordered_map<unsigned, object_type> objects_;
       network::Service& net_svc_;
+      DynGot dyngot_;
   };
 }
 

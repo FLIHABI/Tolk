@@ -1,9 +1,10 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include 
+CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
 TOLKFILE=dependencies/commons/src/commons/tolkfile
 UTILS=dependencies/commons/src/commons/utils
 NETWORK=dependencies/network/src
+DYNGOT=dependencies/DynGOT/src
 OBJS=src/cpu/base_cpu.o\
      src/cpu/registers.o\
      src/interpreter/opcode_manager.o\
@@ -31,7 +32,8 @@ OBJS=src/cpu/base_cpu.o\
      ${NETWORK}/slave.o\
      ${NETWORK}/task.o\
      ${NETWORK}/service.o\
-     ${NETWORK}/utils.o
+     ${NETWORK}/utils.o\
+     ${DYNGOT}/dyngot.o
 
 
 .PHONY: all clean
@@ -39,12 +41,12 @@ OBJS=src/cpu/base_cpu.o\
 all: tolk
 
 tolk: $(OBJS)
-	$(CXX) -o $(OUTBIN) $(OBJS) -pthread
+	$(CXX) -o $(OUTBIN) $(OBJS) -pthread -ldl
 
 # static linked binary
-stolk: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include
+stolk: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
 stolk: $(OBJS)
-	$(CXX) -static -m32 -o $(OUTBIN) $(OBJS) -pthread -Wl,-u,pthread_create,-u,pthread_once,-u,pthread_mutex_lock,-u,pthread_mutex_unlock,-u,pthread_join,-u,pthread_equal,-u,pthread_detach,-u,pthread_cond_wait,-u,pthread_cond_signal,-u,pthread_cond_destroy,-u,pthread_cond_broadcast,-u,pthread_cancel
+	$(CXX) -static -m32 -o $(OUTBIN) $(OBJS) -pthread -ldl -Wl,-u,pthread_create,-u,pthread_once,-u,pthread_mutex_lock,-u,pthread_mutex_unlock,-u,pthread_join,-u,pthread_equal,-u,pthread_detach,-u,pthread_cond_wait,-u,pthread_cond_signal,-u,pthread_cond_destroy,-u,pthread_cond_broadcast,-u,pthread_cancel
 
 clean:
 	rm -rf $(OBJS) $(OUTBIN)

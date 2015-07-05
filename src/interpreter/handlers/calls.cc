@@ -16,6 +16,16 @@ bool interpreter::handlers::call_handler(Environment& env)
   return true;
 }
 
+bool interpreter::handlers::ask_handler(Environment& env)
+{
+  int fun_id = env.cpu.fetch_16bits_operand();
+  std::string fun_name = env.res.get_tolk_file()->get_strtable().get(fun_id);
+  std::function<void(Environment&)> fun
+      = env.res.dyngot_get().safe_get_symbol<void, Environment&>(fun_name.c_str());
+  fun(env);
+  return true;
+}
+
 bool interpreter::handlers::callr_handler(Environment& env)
 {
   call_function(env.cpu.regs.greg[env.cpu.fetch_16bits_operand()], env);

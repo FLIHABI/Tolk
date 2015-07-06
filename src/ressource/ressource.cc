@@ -271,12 +271,16 @@ namespace ressource
           {
               unsigned is_obj = tolk_file_->get_arraytable().get_table().at(kind).offset;
               if (is_obj >= 2)
-                  for (unsigned i = 0; i < objects_[i]->size(); i++)
+              {
+                  for (unsigned i = 0; i < objects_[id]->size(); i++)
+                  {
                       (*objects_[id])[i] = equivalence[(*objects_[id])[i]];
+                  }
+              }
           }
       }
 
-      return value;
+      return equivalence[value];
   }
 }
 

@@ -8,6 +8,31 @@ fun (**)(a : int, b : int) : int = {
     aux;
 };
 
+fun print_map(tab : int[][], size : int) = {
+    ask(print_string("P3"));
+    ask(print_newline());
+
+    ask(print_int(size));
+    ask(print_string(" "));
+    ask(print_int(size));
+    ask(print_newline());
+    ask(print_int(255));
+    ask(print_newline());
+
+    for (var x : int = 0; x < size; x = x + 1) {
+        for (var y : int = 0; y < size; y = y + 1) {
+            ask(print_int(tab[x][y]));
+            ask(print_string(" "));
+            ask(print_int(tab[x][y]));
+            ask(print_string(" "));
+            ask(print_int(tab[x][y]));
+            ask(print_string(" "));
+        };
+        ask(print_newline());
+    };
+    0;
+};
+
 
 fun build_map(size : int, iter : int) : int[][] = {
     var ref_int : ref(int) = new(ref(int));
@@ -80,30 +105,5 @@ fun build_map(size : int, iter : int) : int[][] = {
     result;
 };
 
-fun print_map(tab : int[][], size : int) = {
-    ask(print_string("P3"));
-    ask(print_newline());
-
-    ask(print_int(size));
-    ask(print_string(" "));
-    ask(print_int(size));
-    ask(print_newline());
-    ask(print_int(255));
-    ask(print_newline());
-
-    for (var y : int = 0; y < size; y = y + 1) {
-        for (var x : int = 0; x < size; x = x + 1) {
-            ask(print_int(tab[x][y]));
-            ask(print_string(" "));
-            ask(print_int(tab[x][y]));
-            ask(print_string(" "));
-            ask(print_int(tab[x][y]));
-            ask(print_string(" "));
-        };
-        ask(print_newline());
-    };
-    0;
-};
-
-ask(init_random());
+//ask(init_random());
 print_map(get(offer(build_map(10, 5))), 10 * (2 ** 5));

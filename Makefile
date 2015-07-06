@@ -1,6 +1,6 @@
 OUTBIN=tolk
 CXX=g++
-CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
+CXXFLAGS=-Wall -Wextra -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include -I lib/
 TOLKFILE=dependencies/commons/src/commons/tolkfile
 UTILS=dependencies/commons/src/commons/utils
 NETWORK=dependencies/network/src
@@ -33,6 +33,8 @@ OBJS=src/cpu/base_cpu.o\
      ${NETWORK}/task.o\
      ${NETWORK}/service.o\
      ${NETWORK}/utils.o\
+     lib/random.o\
+     lib/print.o\
      ${DYNGOT}/dyngot.o
 
 LIBS=lib/print.so lib/random.so
@@ -46,13 +48,13 @@ tolk: $(OBJS)
 
 libs: ${LIBS}
 
-slibs: CXXFLAGS = -Wall -Wextra -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
+slibs: CXXFLAGS = -Wall -Wextra -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include -I lib/
 slibs: ${LIBS}
 
 %.so : %.cc
 	$(CXX) -shared -fPIC -o $@ $^ ${CXXFLAGS}
 # static linked binary
-stolk: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
+stolk: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include -I lib/
 stolk: $(OBJS)
 	$(CXX) -static -m32 -o $(OUTBIN) $(OBJS) -pthread -ldl -Wl,-u,pthread_create,-u,pthread_once,-u,pthread_mutex_lock,-u,pthread_mutex_unlock,-u,pthread_join,-u,pthread_equal,-u,pthread_detach,-u,pthread_cond_wait,-u,pthread_cond_signal,-u,pthread_cond_destroy,-u,pthread_cond_broadcast,-u,pthread_cancel
 

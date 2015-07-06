@@ -20,8 +20,7 @@ bool interpreter::handlers::ask_handler(Environment& env)
 {
   int fun_id = env.cpu.fetch_16bits_operand();
   std::string fun_name = env.res.get_tolk_file()->get_strtable().get(fun_id);
-  std::function<void(Environment&)> fun
-      = env.res.dyngot_get().safe_get_symbol<void, Environment&>(fun_name.c_str());
+  std::function<void(Environment&)> fun = env.funs[fun_name];
   fun(env);
   return true;
 }

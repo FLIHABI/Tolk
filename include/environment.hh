@@ -2,6 +2,7 @@
 # define ENVIRONMENT_HH
 
 # include <vector>
+# include <map>
 # include <stdexcept>
 
 # include "cpu/context.hh"
@@ -78,6 +79,8 @@ class Environment
     std::vector<int64_t> stack;
     std::vector<int64_t> ctx_stack;
     std::vector<cpu::Context> ctxs;
+    //Sorry
+    std::map<std::string, std::function<void(Environment&)>> funs;
     ressource::RessourceManager& res;
 };
 

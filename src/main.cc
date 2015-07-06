@@ -9,6 +9,7 @@
 #include "slave.hh"
 #include "args_parser.hh"
 #include "timer.hh"
+#include "printer.hh"
 
 void print_usage(char* bin_name)
 {
@@ -49,6 +50,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    if (args.mode != network::SERVER)
+        print_red();
     net_svc.start();
     //TODO: read gen_reg from file
     if (args.mode == network::SERVER)
@@ -68,7 +71,9 @@ int main(int argc, char* argv[])
     {
         while (1)
         {
+            print_blue();
             std::string bytecode = net_svc.get_task();
+            print_green();
             if (bytecode.size() == 0)
             {
                 net_svc.stop();
@@ -95,6 +100,7 @@ int main(int argc, char* argv[])
             uint64_t ret = env.cpu.regs.greg[0];
             result = rm.serialize_return(p.first, ret);
             bytecode = std::string((char*)&result[0], result.size() * 8);
+            print_yellow();
             net_svc.submit_task_result(bytecode);
         }
     }

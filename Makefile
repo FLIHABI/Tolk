@@ -21,6 +21,7 @@ OBJS=src/cpu/base_cpu.o\
      src/args_parser.o\
      src/loader.o\
      src/main.o\
+     src/printer.o\
      ${TOLKFILE}/functable.o\
      ${TOLKFILE}/strtable.o\
      ${TOLKFILE}/symtable.o\

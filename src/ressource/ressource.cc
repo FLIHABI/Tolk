@@ -202,8 +202,6 @@ namespace ressource
           result.push_back(elt);
           result.push_back(kind);
 
-          serialize_struct_(elt, kind, result, queue);
-
           if (is_struct_(kind))
               serialize_struct_(elt, kind, result, queue);
           else

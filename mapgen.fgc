@@ -1,0 +1,107 @@
+type ref(A) = { value : A; };
+
+fun (**)(a : int, b : int) : int = {
+    var aux : int = 1;
+    for (var i : int = 0; i < b; i = i + 1) {
+        aux = aux * a;
+    };
+    aux;
+};
+
+
+fun build_map(size : int, iter : int) : int[][] = {
+    var ref_int : ref(int) = new(ref(int));
+    var final_size : int = 2 ** size;
+    var result : int[][] = new(int[final_size][]);
+    var aux : int[][] = new(int[final_size][]);
+    var buffer : int[] = new(int[5]);
+
+    for (var i : int = 0; i < final_size; i = i + 1) {
+        result[i] = new(int[final_size]);
+        aux[i] = new(int[final_size]);
+    };
+
+    for (var x : int = 0; x < size; x = x + 1) {
+        for (var y : int = 0; y < size; y = y + 1) {
+            ask(get_random(ref_int, 256));
+            result[x][y] = ref_int.value;
+        };
+    };
+
+    for (var i : int = 0; i < iter; i = i + 1) {
+        for (var x : int = 0; x < size; x = x + 1) {
+            for (var y : int = 0; y < size; y = y + 1) {
+                aux[x * 2][y * 2] = result[x][y];
+                aux[x * 2 + 1][y * 2] = result[x][y];
+                aux[x * 2][y * 2 + 1] = result[x][y];
+                aux[x * 2 + 1][y * 2 + 1] = result[x][y];
+            };
+        };
+
+        size = size * 2;
+
+        for (var x : int = 0; x < size; x = x + 1) {
+            for (var y : int = 0; y < size; y = y + 1) {
+                var counter : int = 1;
+                var result : int = aux[x][y];
+                buffer[0] = result;
+                if (x > 0) {
+                    buffer[counter] = aux[x - 1][y];
+                    result = result + buffer[counter];
+                    counter = counter + 1;
+                };
+                if (x + 1 < size) {
+                    buffer[counter] = aux[x + 1][y];
+                    result = result + buffer[counter];
+                    counter = counter + 1;
+                };
+                if (y > 0) {
+                    buffer[counter] = aux[x][y - 1];
+                    result = result + buffer[counter];
+                    counter = counter + 1;
+                };
+                if (y + 1 < size) {
+                    buffer[counter] = aux[x][y + 1];
+                    result = result + buffer[counter];
+                    counter = counter + 1;
+                };
+                ask(get_random(ref_int, counter));
+                aux[x][y] = ((result / counter) + buffer[ref_int.value]) / 2;
+            };
+
+        };
+        var tmp : int[][] = aux;
+        aux = result;
+        result = tmp;
+
+    };
+    result;
+};
+
+fun print_map(tab : int[][], size : int) = {
+    ask(print_string("P3"));
+    ask(print_newline());
+
+    ask(print_int(size));
+    ask(print_string(" "));
+    ask(print_int(size));
+    ask(print_newline());
+    ask(print_int(255));
+    ask(print_newline());
+
+    for (var y : int = 0; y < size; y = y + 1) {
+        for (var x : int = 0; x < size; x = x + 1) {
+            ask(print_int(tab[x][y]));
+            ask(print_string(" "));
+            ask(print_int(tab[x][y]));
+            ask(print_string(" "));
+            ask(print_int(tab[x][y]));
+            ask(print_string(" "));
+        };
+        ask(print_newline());
+    };
+    0;
+};
+
+ask(init_random());
+print_map(build_map(10, 5), 10 * (2 ** 5));

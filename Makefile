@@ -35,7 +35,7 @@ OBJS=src/cpu/base_cpu.o\
      ${NETWORK}/utils.o\
      ${DYNGOT}/dyngot.o
 
-LIBS=lib/print.so
+LIBS=lib/print.so lib/random.so
 
 .PHONY: all clean
 
@@ -46,11 +46,11 @@ tolk: $(OBJS)
 
 libs: ${LIBS}
 
-slibs: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
+slibs: CXXFLAGS = -Wall -Wextra -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
 slibs: ${LIBS}
 
 %.so : %.cc
-	$(CXX) -shared -fpic -o $@ $^ ${CXXFLAGS}
+	$(CXX) -shared -fPIC -o $@ $^ ${CXXFLAGS}
 # static linked binary
 stolk: CXXFLAGS = -Wall -Wextra -static -m32 -std=c++14 -g3 -Wno-unused-parameter -I include -I dependencies/commons/include/ -I dependencies/network/include -I dependencies/DynGOT/include
 stolk: $(OBJS)

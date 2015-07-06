@@ -18,6 +18,7 @@ extern "C" void print_newline(Environment& env)
     for (uint64_t i = 0; i < args; i++)
         env.stack_pop();
 
+
     std::cout << std::endl;
 }
 

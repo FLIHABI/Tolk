@@ -11,7 +11,7 @@ fun (**)(a : int, b : int) : int = {
 
 fun build_map(size : int, iter : int) : int[][] = {
     var ref_int : ref(int) = new(ref(int));
-    var final_size : int = 2 ** size;
+    var final_size : int = size * (2 ** iter);
     var result : int[][] = new(int[final_size][]);
     var aux : int[][] = new(int[final_size][]);
     var buffer : int[] = new(int[5]);
@@ -75,6 +75,8 @@ fun build_map(size : int, iter : int) : int[][] = {
         result = tmp;
 
     };
+    ask(print_int(size));
+    ask(print_newline());
     result;
 };
 
@@ -104,4 +106,4 @@ fun print_map(tab : int[][], size : int) = {
 };
 
 ask(init_random());
-print_map(build_map(10, 5), 10 * (2 ** 5));
+print_map(get(offer(build_map(10, 5))), 10 * (2 ** 5));

@@ -9,6 +9,7 @@ fun (**)(a : int, b : int) : int = {
 };
 
 fun print_map(tab : int[][], size : int) = {
+    ask(log_());
     ask(print_string("P3"));
     ask(print_newline());
 
@@ -35,6 +36,7 @@ fun print_map(tab : int[][], size : int) = {
 
 
 fun build_map(size : int, iter : int) : int[][] = {
+    ask(init_random());
     var ref_int : ref(int) = new(ref(int));
     var final_size : int = size * (2 ** iter);
     var result : int[][] = new(int[final_size][]);
@@ -105,5 +107,16 @@ fun build_map(size : int, iter : int) : int[][] = {
     result;
 };
 
-//ask(init_random());
-print_map(get(offer(build_map(10, 5))), 10 * (2 ** 5));
+var number : int = 1;
+
+var tab : lol(int[][])[] = new(lol(int[][])[number]);
+
+for (var a : int = 0; a < number; a = a + 1) {
+    tab[a] = offer(build_map(10, 5));
+};
+
+for (var a : int = 0; a < number; a = a + 1) {
+    print_map(get(tab[a]), 10 * (5 ** 2));
+};
+ask(log_());
+42;

@@ -16,6 +16,7 @@ Environment::Environment(cpu::BaseCPU& cpu, ressource::RessourceManager& rm)
     funs["print_int"] = print_int;
     funs["print_newline"] = print_newline;
     funs["print_string"] = print_string;
+    funs["log_"] = log_;
 }
 
 void Environment::run()

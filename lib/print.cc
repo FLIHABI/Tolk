@@ -1,5 +1,8 @@
-#include <iostream>
+#include <fstream>
+#include <string>
 #include "print.hh"
+
+static std::ofstream aux;
 
 extern "C" void print_int(Environment& env)
 {
@@ -8,7 +11,7 @@ extern "C" void print_int(Environment& env)
     for (uint64_t  i = 1; i < args; i++)
         env.stack_pop();
 
-    std::cout << value;
+    aux << value;
 }
 
 extern "C" void print_newline(Environment& env)
@@ -19,7 +22,7 @@ extern "C" void print_newline(Environment& env)
         env.stack_pop();
 
 
-    std::cout << std::endl;
+    aux << std::endl;
 }
 
 extern "C" void print_string(Environment& env)
@@ -29,5 +32,19 @@ extern "C" void print_string(Environment& env)
     for (uint64_t  i = 1; i < args; i++)
         env.stack_pop();
 
-    std::cout << env.res.get_string(id);
+    aux << env.res.get_string(id);
+}
+
+extern "C" void log_(Environment& env)
+{
+    static unsigned counter = 0;
+    uint64_t args = env.stack_pop();
+
+    aux.close();
+
+    for (uint64_t i = 0; i < args; i++)
+        env.stack_pop();
+
+    aux.open("file" + std::to_string(counter));
+    ++counter;
 }
